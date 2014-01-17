@@ -4,90 +4,90 @@ package core;
  * Constante for EV3 communication
  * @author Jordan
  */
-public class Enums {
+public class EV3Types {
     
 
 	static class ArgumentSize
 	{
-		final int Byte = 0x81;	// 1 byte
-		final int Short = 0x82;	// 2 bytes
-		final int Int = 0x83;	// 4 bytes
-		final int String = 0x84; // null-terminated string
+		static final int Byte = 0x81;	// 1 byte
+		static final int Short = 0x82;	// 2 bytes
+		static final int Int = 0x83;	// 4 bytes
+		static final int String = 0x84; // null-terminated string
 	}
 
 	static class ReplyType
 	{
-		final int DirectReply = 0x02;
-		final int SystemReply = 0x03;
-		final int DirectReplyError = 0x04;
-		final int SystemReplyError = 0x05;
+		static final int DirectReply = 0x02;
+		static final int SystemReply = 0x03;
+		static final int DirectReplyError = 0x04;
+		static final int SystemReplyError = 0x05;
 	}
 
 	static class Opcode
 	{
-		final int UIRead_GetFirmware = 0x810a;
+		static final int UIRead_GetFirmware = 0x810a;
 
-		final int UIWrite_LED = 0x821b;
+		static final int UIWrite_LED = 0x821b;
 
-		final int UIButton_Pressed = 0x8309;
+		static final int UIButton_Pressed = 0x8309;
 
-		final int UIDraw_Update = 0x8400;
-		final int UIDraw_Clean = 0x8401;
-		final int UIDraw_Pixel = 0x8402;
-		final int UIDraw_Line = 0x8403;
-		final int UIDraw_Circle = 0x8404;
-		final int UIDraw_Text = 0x8405;
-		final int UIDraw_FillRect = 0x8409;
-		final int UIDraw_Rect = 0x840a;
-		final int UIDraw_InverseRect = 0x8410;
-		final int UIDraw_SelectFont = 0x8411;
-		final int UIDraw_Topline = 0x8412;
-		final int UIDraw_FillWindow = 0x8413;
-		final int UIDraw_DotLine = 0x8415;
-		final int UIDraw_FillCircle = 0x8418;
-		final int UIDraw_BmpFile = 0x841c;
+		static final int UIDraw_Update = 0x8400;
+		static final int UIDraw_Clean = 0x8401;
+		static final int UIDraw_Pixel = 0x8402;
+		static final int UIDraw_Line = 0x8403;
+		static final int UIDraw_Circle = 0x8404;
+		static final int UIDraw_Text = 0x8405;
+		static final int UIDraw_FillRect = 0x8409;
+		static final int UIDraw_Rect = 0x840a;
+		static final int UIDraw_InverseRect = 0x8410;
+		static final int UIDraw_SelectFont = 0x8411;
+		static final int UIDraw_Topline = 0x8412;
+		static final int UIDraw_FillWindow = 0x8413;
+		static final int UIDraw_DotLine = 0x8415;
+		static final int UIDraw_FillCircle = 0x8418;
+		static final int UIDraw_BmpFile = 0x841c;
 
-		final int Sound_Break = 0x9400;
-		final int Sound_Tone = 0x9401;
-                final int Sound_Play = 0x9402;
-		final int Sound_Repeat = 0x9403;
-		final int Sound_Service = 0x9404;
+		static final int Sound_Break = 0x9400;
+		static final int Sound_Tone = 0x9401;
+                static final int Sound_Play = 0x9402;
+		static final int Sound_Repeat = 0x9403;
+		static final int Sound_Service = 0x9404;
 
-		final int InputDevice_GetTypeMode = 0x9905;
-		final int InputDevice_GetDeviceName = 0x9915;
-		final int InputDevice_GetModeName = 0x9916;
-		final int InputDevice_ReadyPct = 0x991b;
-		final int InputDevice_ReadyRaw = 0x991c;
-		final int InputDevice_ReadySI = 0x991d;
-		final int InputDevice_ClearAll = 0x990a;
-		final int InputDevice_ClearChanges = 0x991a;
+		static final int InputDevice_GetTypeMode = 0x9905;
+		static final int InputDevice_GetDeviceName = 0x9915;
+		static final int InputDevice_GetModeName = 0x9916;
+		static final int InputDevice_ReadyPct = 0x991b;
+		static final int InputDevice_ReadyRaw = 0x991c;
+		static final int InputDevice_ReadySI = 0x991d;
+		static final int InputDevice_ClearAll = 0x990a;
+		static final int InputDevice_ClearChanges = 0x991a;
 
-		final int InputRead = 0x9a;
-		final int InputReadExt = 0x9e;
-		final int InputReadSI = 0x9d;
+		static final int InputRead = 0x9a;
+		static final int InputReadExt = 0x9e;
+		static final int InputReadSI = 0x9d;
 
-		final int OutputStop = 0xa3;
-		final int OutputPower = 0xa4;
-		final int OutputSpeed = 0xa5;
-		final int OutputStart = 0xa6;
-		final int OutputPolarity = 0xa7;
-		final int OutputStepPower = 0xac;
-		final int OutputTimePower = 0xad;
-		final int OutputStepSpeed = 0xae;
-		final int OutputTimeSpeed = 0xaf;
-		final int OutputStepSync = 0xb0;
-		final int OutputTimeSync = 0xb1;
+		static final int OutputStop = 0xa3;
+		static final int OutputPower = 0xa4;
+		static final int OutputSpeed = 0xa5;
+		static final int OutputStart = 0xa6;
+		static final int OutputPolarity = 0xa7;
+		static final int OutputStepPower = 0xac;
+		static final int OutputTimePower = 0xad;
+		static final int OutputStepSpeed = 0xae;
+		static final int OutputTimeSpeed = 0xaf;
+		static final int OutputStepSync = 0xb0;
+		static final int OutputTimeSync = 0xb1;
 
-		final int Tst = 0xff;
+		static final int Tst = 0xff;
 	}
 
 	static class SystemOpcode
 	{
-		final int BeginDownload = 0x92;
-		final int ContinueDownload = 0x93;
-		final int CloseFileHandle = 0x98;
-		final int CreateDirectory = 0x9b;
-		final int DeleteFile = 0x9c;
+		static final int BeginDownload = 0x92;
+		static final int ContinueDownload = 0x93;
+		static final int CloseFileHandle = 0x98;
+		static final int CreateDirectory = 0x9b;
+		static final int DeleteFile = 0x9c;
 	}
 
 	enum SystemReplyStatus
@@ -113,17 +113,16 @@ public class Enums {
 	static class CommandType
 	{		
 		// Direct command with a reply expected
-		final int DirectReply = 0x00;
+		static final int DirectReply = 0x00;
 		
 		// Direct command with no reply
-		final int DirectNoReply = 0x80;
-
+		static final int DirectNoReply = 0x80;
 		
 		//  System command with a reply expected
-		final int SystemReply = 0x01;
+		static final int SystemReply = 0x01;
 		
 		// System command with no reply
-		final int SystemNoReply = 0x81;
+		static final int SystemNoReply = 0x81;
 	}
 
 	
@@ -132,13 +131,13 @@ public class Enums {
 	static class Format
 	{
 		// Percentage
-		final int Percent = 0x10;
+		static final int Percent = 0x10;
 		
 		// Raw
-		final int Raw = 0x11;
+		static final int Raw = 0x11;
 		
 		// International System of Units
-		final int SI = 0x12;
+		static final int SI = 0x12;
 	}
 
 	
@@ -148,13 +147,13 @@ public class Enums {
 	{
 		
 		// Turn backward
-		final int Backward = -1;
+		static final int Backward = -1;
 		
 		// Turn in the opposite direction
-		final int Opposite = 0;
+		static final int Opposite = 0;
 		
 		// Turn forward
-		final int Forward = 1;
+		static final int Forward = 1;
 	}
 
 	
@@ -163,29 +162,29 @@ public class Enums {
 	{
 		
 		// Port 1
-		final int One   = 0x00;
+		static final int One   = 0x00;
 		
 		// Port 2
-		final int Two   = 0x01;
+		static final int Two   = 0x01;
 		
 		// Port 3
-		final int Three	= 0x02;
+		static final int Three	= 0x02;
 		
 		// Port 4
-		final int Four	= 0x03;
+		static final int Four	= 0x03;
 
 		
 		// Port A
-		final int A = 0x10;
+		static final int A = 0x10;
 		
 		// Port B
-		final int B = 0x11;
+		static final int B = 0x11;
 		
 		// Port C
-		final int C = 0x12;
+		static final int C = 0x12;
 		
 		// Port D
-		final int D = 0x13;
+		static final int D = 0x13;
 	}
 
 	
@@ -194,19 +193,19 @@ public class Enums {
 	{
 		
 		// Port A
-		final int A	= 0x01;
+		static final int A	= 0x01;
 		
 		// Port B
-		final int B	= 0x02;
+		static final int B	= 0x02;
 		
 		// Port C
-		final int C	= 0x04;
+		static final int C	= 0x04;
 		
 		// Port D
-		final int D	= 0x08;
+		static final int D	= 0x08;
 		
 		// Ports A;B;C and D simultaneously
-		final int All	= 0x0f;
+		static final int All	= 0x0f;
 	}
 
 	
@@ -217,61 +216,61 @@ public class Enums {
 		// NXT devices
 		
 		// NXT Touch sensor
-		final int NxtTouch = 1;
+		static final int NxtTouch = 1;
 		
 		// NXT Light sensor
-		final int NxtLight = 2;
+		static final int NxtLight = 2;
 		
 		// NXT Sound sensor
-		final int NxtSound = 3;
+		static final int NxtSound = 3;
 		
 		// NXT Color sensor
-		final int NxtColor = 4;
+		static final int NxtColor = 4;
 		
 		// NXT Ultrasonic sensor
-		final int NxtUltrasonic = 5;
+		static final int NxtUltrasonic = 5;
 		
 		//  NXT Temperature sensor
-		final int NxtTemperature = 6;
+		static final int NxtTemperature = 6;
 
 		// 2 motors
 		
 		// Large motor
-		final int LMotor = 7;
+		static final int LMotor = 7;
 		
 		// Medium motor
-		final int MMotor = 8;
+		static final int MMotor = 8;
 
 		// Ev3 devices
 		
 		// EV3 Touch sensor
-		final int Touch = 16;
+		static final int Touch = 16;
 		
 		// EV3 Color sensor
-		final int Color = 29;
+		static final int Color = 29;
 		
 		// EV3 Ultrasonic sensor
-		final int Ultrasonic = 30;
+		static final int Ultrasonic = 30;
 		
 		// EV3 Gyroscope sensor
-		final int Gyroscope = 32;
+		static final int Gyroscope = 32;
 		
 		// EV3 IR sensor
-		final int Infrared = 33;
+		static final int Infrared = 33;
 
 		// other
 		
 		// Sensor is initializing
-		final int Initializing = 0x7d;
+		static final int Initializing = 0x7d;
 		
 		// Port is empty
-		final int Empty = 0x7e;
+		static final int Empty = 0x7e;
 		
 		// Sensor is plugged into a motor port; or vice-versa
-		final int WrongPort = 0x7f;
+		static final int WrongPort = 0x7f;
 		
 		// Unknown sensor/status
-		final int Unknown = 0xff;
+		static final int Unknown = 0xff;
 	}
 
 	
