@@ -5,89 +5,129 @@ package core;
  * @author Jordan
  */
 public class EV3Types {
-    
 
-	static class ArgumentSize
+
+	public enum ArgumentSize
 	{
-		static final int Byte = 0x81;	// 1 byte
-		static final int Short = 0x82;	// 2 bytes
-		static final int Int = 0x83;	// 4 bytes
-		static final int String = 0x84; // null-terminated string
+		Byte(0x81),	// 1 byte
+		Short(0x82),	// 2 bytes
+		Int(0x83),	// 4 bytes
+		String(0x84); // null-terminated string
+        
+        int val;
+        
+        private ArgumentSize(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
-	static class ReplyType
+	public enum ReplyType
 	{
-		static final int DirectReply = 0x02;
-		static final int SystemReply = 0x03;
-		static final int DirectReplyError = 0x04;
-		static final int SystemReplyError = 0x05;
+		DirectReply(0x02),
+		SystemReply(0x03),
+		DirectReplyError(0x04),
+		SystemReplyError(0x05);
+        
+        int val;
+        
+        private ReplyType(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
-	static class Opcode
+	public enum Opcode
 	{
-		static final int UIRead_GetFirmware = 0x810a;
+		UIRead_GetFirmware(0x810a),
 
-		static final int UIWrite_LED = 0x821b;
+		UIWrite_LED(0x821b),
 
-		static final int UIButton_Pressed = 0x8309;
+		UIButton_Pressed(0x8309),
 
-		static final int UIDraw_Update = 0x8400;
-		static final int UIDraw_Clean = 0x8401;
-		static final int UIDraw_Pixel = 0x8402;
-		static final int UIDraw_Line = 0x8403;
-		static final int UIDraw_Circle = 0x8404;
-		static final int UIDraw_Text = 0x8405;
-		static final int UIDraw_FillRect = 0x8409;
-		static final int UIDraw_Rect = 0x840a;
-		static final int UIDraw_InverseRect = 0x8410;
-		static final int UIDraw_SelectFont = 0x8411;
-		static final int UIDraw_Topline = 0x8412;
-		static final int UIDraw_FillWindow = 0x8413;
-		static final int UIDraw_DotLine = 0x8415;
-		static final int UIDraw_FillCircle = 0x8418;
-		static final int UIDraw_BmpFile = 0x841c;
+		UIDraw_Update(0x8400),
+		UIDraw_Clean(0x8401),
+		UIDraw_Pixel(0x8402),
+		UIDraw_Line(0x8403),
+		UIDraw_Circle(0x8404),
+		UIDraw_Text(0x8405),
+		UIDraw_FillRect(0x8409),
+		UIDraw_Rect(0x840a),
+		UIDraw_InverseRect(0x8410),
+		UIDraw_SelectFont(0x8411),
+		UIDraw_Topline(0x8412),
+		UIDraw_FillWindow(0x8413),
+		UIDraw_DotLine(0x8415),
+		UIDraw_FillCircle(0x8418),
+		UIDraw_BmpFile(0x841c),
 
-		static final int Sound_Break = 0x9400;
-		static final int Sound_Tone = 0x9401;
-                static final int Sound_Play = 0x9402;
-		static final int Sound_Repeat = 0x9403;
-		static final int Sound_Service = 0x9404;
+		Sound_Break(0x9400),
+		Sound_Tone(0x9401),
+        Sound_Play(0x9402),
+		Sound_Repeat(0x9403),
+		Sound_Service(0x9404),
 
-		static final int InputDevice_GetTypeMode = 0x9905;
-		static final int InputDevice_GetDeviceName = 0x9915;
-		static final int InputDevice_GetModeName = 0x9916;
-		static final int InputDevice_ReadyPct = 0x991b;
-		static final int InputDevice_ReadyRaw = 0x991c;
-		static final int InputDevice_ReadySI = 0x991d;
-		static final int InputDevice_ClearAll = 0x990a;
-		static final int InputDevice_ClearChanges = 0x991a;
+		InputDevice_GetTypeMode(0x9905),
+		InputDevice_GetDeviceName(0x9915),
+		InputDevice_GetModeName(0x9916),
+		InputDevice_ReadyPct(0x991b),
+		InputDevice_ReadyRaw(0x991c),
+		InputDevice_ReadySI(0x991d),
+		InputDevice_ClearAll(0x990a),
+		InputDevice_ClearChanges(0x991a),
 
-		static final int InputRead = 0x9a;
-		static final int InputReadExt = 0x9e;
-		static final int InputReadSI = 0x9d;
+		InputRead(0x9a),
+		InputReadExt(0x9e),
+		InputReadSI(0x9d),
 
-		static final int OutputStop = 0xa3;
-		static final int OutputPower = 0xa4;
-		static final int OutputSpeed = 0xa5;
-		static final int OutputStart = 0xa6;
-		static final int OutputPolarity = 0xa7;
-		static final int OutputStepPower = 0xac;
-		static final int OutputTimePower = 0xad;
-		static final int OutputStepSpeed = 0xae;
-		static final int OutputTimeSpeed = 0xaf;
-		static final int OutputStepSync = 0xb0;
-		static final int OutputTimeSync = 0xb1;
+		OutputStop(0xa3),
+		OutputPower(0xa4),
+		OutputSpeed(0xa5),
+		OutputStart(0xa6),
+		OutputPolarity(0xa7),
+		OutputStepPower(0xac),
+		OutputTimePower(0xad),
+		OutputStepSpeed(0xae),
+		OutputTimeSpeed(0xaf),
+		OutputStepSync(0xb0),
+		OutputTimeSync(0xb1),
 
-		static final int Tst = 0xff;
+		Tst(0xff);
+        
+        int val;
+        
+        private Opcode(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
-	static class SystemOpcode
+	public enum SystemOpcode
 	{
-		static final int BeginDownload = 0x92;
-		static final int ContinueDownload = 0x93;
-		static final int CloseFileHandle = 0x98;
-		static final int CreateDirectory = 0x9b;
-		static final int DeleteFile = 0x9c;
+		BeginDownload(0x92),
+		ContinueDownload(0x93),
+		CloseFileHandle(0x98),
+		CreateDirectory(0x9b),
+		DeleteFile(0x9c);
+        
+        int val;
+        
+        private SystemOpcode(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	enum SystemReplyStatus
@@ -104,173 +144,199 @@ public class EV3Types {
 		SizeError,
 		UnknownError,
 		IllegalFilename,
-		IllegalConnection
+		IllegalConnection;
 	}
 
 	
 	// The type of command being sent to the brick
-	
-	static class CommandType
+	public enum CommandType
 	{		
 		// Direct command with a reply expected
-		static final int DirectReply = 0x00;
+		DirectReply(0x00),
 		
 		// Direct command with no reply
-		static final int DirectNoReply = 0x80;
+		DirectNoReply(0x80),
 		
 		//  System command with a reply expected
-		static final int SystemReply = 0x01;
+		SystemReply(0x01),
 		
 		// System command with no reply
-		static final int SystemNoReply = 0x81;
+		SystemNoReply(0x81);
+        
+        int val;
+        
+        private CommandType(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	
 	// Format for sensor data.
-	
-	static class Format
+	public enum Format
 	{
 		// Percentage
-		static final int Percent = 0x10;
+		Percent(0x10),
 		
 		// Raw
-		static final int Raw = 0x11;
+		Raw(0x11),
 		
 		// International System of Units
-		static final int SI = 0x12;
+		SI(0x12);
+        
+        int val;
+        
+        private Format(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	
-	// Polarity/direction to turn the motor
-	
-	static class Polarity
+	// Polarity/direction to turn the motor	
+	public enum Polarity
 	{
-		
-		// Turn backward
-		static final int Backward = -1;
-		
-		// Turn in the opposite direction
-		static final int Opposite = 0;
-		
-		// Turn forward
-		static final int Forward = 1;
+		Backward(-1),
+		Opposite(0),
+		Forward(1);
+        
+        int val;
+        
+        private Polarity(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	
 	// Ports which can receive input data
-	static class InputPort
+	public enum InputPort
 	{
+		One  (0x00),
+		Two  (0x01),
+		Three(0x02),
+		Four (0x03),
 		
-		// Port 1
-		static final int One   = 0x00;
-		
-		// Port 2
-		static final int Two   = 0x01;
-		
-		// Port 3
-		static final int Three	= 0x02;
-		
-		// Port 4
-		static final int Four	= 0x03;
-
-		
-		// Port A
-		static final int A = 0x10;
-		
-		// Port B
-		static final int B = 0x11;
-		
-		// Port C
-		static final int C = 0x12;
-		
-		// Port D
-		static final int D = 0x13;
+		A(0x10),
+		B(0x11),
+		C(0x12),
+		D(0x13);
+        
+        int val;
+        
+        private InputPort(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	
 	// Ports which can send output
-	static class OutputPort
-	{
-		
-		// Port A
-		static final int A	= 0x01;
-		
-		// Port B
-		static final int B	= 0x02;
-		
-		// Port C
-		static final int C	= 0x04;
-		
-		// Port D
-		static final int D	= 0x08;
-		
-		// Ports A;B;C and D simultaneously
-		static final int All	= 0x0f;
+	public enum OutputPort
+	{		
+		A(0x01),
+		B(0x02),
+		C(0x04),
+		D(0x08),
+
+        All(0x0f);
+        
+        int val;
+        
+        private OutputPort(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	
 	// List of devices which can be recognized as input or output devices
 	
-	static class DeviceType
+	public enum DeviceType
 	{
 		// NXT devices
 		
 		// NXT Touch sensor
-		static final int NxtTouch = 1;
+		NxtTouch(1),
 		
 		// NXT Light sensor
-		static final int NxtLight = 2;
+		NxtLight(2),
 		
 		// NXT Sound sensor
-		static final int NxtSound = 3;
+		NxtSound(3),
 		
 		// NXT Color sensor
-		static final int NxtColor = 4;
+		NxtColor(4),
 		
 		// NXT Ultrasonic sensor
-		static final int NxtUltrasonic = 5;
+		NxtUltrasonic(5),
 		
 		//  NXT Temperature sensor
-		static final int NxtTemperature = 6;
+		NxtTemperature(6),
 
 		// 2 motors
 		
 		// Large motor
-		static final int LMotor = 7;
+		LMotor(7),
 		
 		// Medium motor
-		static final int MMotor = 8;
+		MMotor(8),
 
 		// Ev3 devices
 		
 		// EV3 Touch sensor
-		static final int Touch = 16;
+		Touch(16),
 		
 		// EV3 Color sensor
-		static final int Color = 29;
+		Color(29),
 		
 		// EV3 Ultrasonic sensor
-		static final int Ultrasonic = 30;
+		Ultrasonic(30),
 		
 		// EV3 Gyroscope sensor
-		static final int Gyroscope = 32;
+		Gyroscope(32),
 		
 		// EV3 IR sensor
-		static final int Infrared = 33;
+		Infrared(33),
 
 		// other
 		
 		// Sensor is initializing
-		static final int Initializing = 0x7d;
+		Initializing(0x7d),
 		
 		// Port is empty
-		static final int Empty = 0x7e;
+		Empty(0x7e),
 		
-		// Sensor is plugged into a motor port; or vice-versa
-		static final int WrongPort = 0x7f;
+		// Sensor is plugged into a motor port), or vice-versa
+		WrongPort(0x7f),
 		
 		// Unknown sensor/status
-		static final int Unknown = 0xff;
+		Unknown(0xff);
+        
+        int val;
+        
+        private DeviceType(int val){
+            this.val = val;
+        }
+        
+        public int get(){
+            return val;
+        }
 	}
 
 	
@@ -341,7 +407,6 @@ public class EV3Types {
 
 	
 	// UI colors
-	
 	enum  Color
 	{		
 		// Color of the background		
@@ -353,7 +418,6 @@ public class EV3Types {
 
 	
 	// Font types for drawing text to the screen
-	
 	enum  FontType
 	{		
 		// Small font		
@@ -368,7 +432,6 @@ public class EV3Types {
 
 	
 	// NXT and EV3 Touch Sensor mode
-	
 	enum  TouchMode
 	{		
 		// On when pressed, off when released		
@@ -380,7 +443,6 @@ public class EV3Types {
 
 	
 	// NXT Light Sensor mode
-	
 	enum  NxtLightMode
 	{		
 		// Amount of reflected light		
@@ -392,7 +454,6 @@ public class EV3Types {
 
 	
 	// NXT Sound Sensor mode
-	
 	enum  NxtSoundMode
 	{		
 		// Decibels		
@@ -404,7 +465,6 @@ public class EV3Types {
 
 	
 	// NXT Color Sensor mode
-	
 	enum  NxtColorMode
 	{		
 		// Reflected color		
@@ -425,10 +485,8 @@ public class EV3Types {
 		// Raw sensor value		
 		Raw
 	}
-
 	
 	// NXT Ultrasonic Sensor mode
-	
 	enum  NxtUltrasonicMode
 	{		
 		// Values in centimeter units		
@@ -440,7 +498,6 @@ public class EV3Types {
 
 	
 	// NXT Temperature Sensor mode
-	
 	enum  NxtTemperatureMode
 	{		
 		// Values in Celsius units		
@@ -452,7 +509,6 @@ public class EV3Types {
 
 	
 	// Motor mode
-	
 	enum  MotorMode
 	{
 		// Values in degrees		
@@ -467,7 +523,6 @@ public class EV3Types {
 
 	
 	// EV3 Color Sensor mode
-	
 	enum  ColorMode
 	{		
 		// Reflected color		
@@ -491,7 +546,6 @@ public class EV3Types {
 
 	
 	// EV3 Ultrasonic Sensor mode
-	
 	enum  UltrasonicMode
 	{		
 		// Values in centimeter units		
@@ -518,7 +572,6 @@ public class EV3Types {
 
 	
 	// EV3 Gyroscope Sensor mode
-	
 	enum  GyroscopeMode
 	{		
 		// Angle		
@@ -539,10 +592,8 @@ public class EV3Types {
 
 	
 	// EV3 Infrared Sensor mode
-	
 	enum  InfraredMode
 	{
-		
 		// Proximity		
 		Proximity,
 		
