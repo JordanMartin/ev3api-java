@@ -5,8 +5,6 @@ import core.BluetoothCommunication;
 import core.Brick;
 import core.Command;
 import core.EV3Types.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -14,16 +12,18 @@ import java.util.logging.Logger;
  */
 public class Ev3ApiTester {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws ArgumentException {
-        BluetoothCommunication comm = new BluetoothCommunication("COM8");
+    public static void main(String[] args) throws ArgumentException, InterruptedException {
+        
+        BluetoothCommunication comm = new BluetoothCommunication("COM6");
         comm.open();
+        
         Brick ev3 = new Brick(comm);
-        Command c = new Command(CommandType.DirectNoReply);
-        c.turnMotorAtPower(OutputPort.A, 50);
-        ev3.sendCommand(c);
+        ev3.directCommand.stepMotorSync(OutputPort.B, 50, 50, 360, false);
+        ev3.directCommand.turnMotorAtPower(OutputPort.C, 50);
+        
+        Thread.sleep(2000);        
+        ev3.directCommand.stopMotor(OutputPort.All, false);
+
         
     }
     

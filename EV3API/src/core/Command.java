@@ -31,20 +31,20 @@ public class Command
         data = ByteBuffer.allocateDirect(200);
 
         // Two first byte for the command length (gets filled in later)
-        data.put((byte)0);
-        data.put((byte)0);
+        data.put((byte) 0);
+        data.put((byte) 0);
 
         // Two byte for the request identification
         // TODO : Use response class and manage a id        
-        data.put((byte)0);
-        data.put((byte)0);
+        data.put((byte) 0);
+        data.put((byte) 0);
 
         // One byte for the type of command
-        data.put((byte)commandType.get());
+        data.put((byte) commandType.get());
 
         if (commandType == CommandType.DirectReply || commandType == CommandType.DirectNoReply) {
-            data.put((byte)0);
-            data.put((byte)0);
+            data.put((byte) 0);
+            data.put((byte) 0);
         }
     }
 
@@ -53,15 +53,15 @@ public class Command
 
         // Write on two bytes if the command is to large
         if (opcode.get() > Opcode.Tst.get())
-            data.put((byte)(opcode.get() >> 8));
+            data.put((byte) (opcode.get() >> 8));
 
-        data.put((byte)opcode.get());
+        data.put((byte) opcode.get());
     }
 
     private void addOpcode(SystemOpcode opcode)
     {
 
-        data.put((byte)opcode.get());
+        data.put((byte) opcode.get());
     }
 
     /**
@@ -71,7 +71,7 @@ public class Command
      */
     private void addParameter(String parameter)
     {
-        data.put((byte)ArgumentSize.String.get());
+        data.put((byte) ArgumentSize.String.get());
 
         byte[] stringBytes = parameter.getBytes(Charset.defaultCharset());
 
@@ -79,7 +79,7 @@ public class Command
             data.put(b);
 
         // End of string
-        data.put((byte)0x00);
+        data.put((byte) 0x00);
     }
 
     /**
@@ -89,19 +89,19 @@ public class Command
      */
     private void addParameter(int parameter)
     {
-        data.put((byte)ArgumentSize.Int.get());
+        data.put((byte) ArgumentSize.Int.get());
         data.putInt(parameter);
     }
 
     private void addParameter(byte parameter)
     {
-        data.put((byte)ArgumentSize.Byte.get());
+        data.put((byte) ArgumentSize.Byte.get());
         data.put(parameter);
     }
 
     private void addParameter(short parameter)
     {
-        data.put((byte)ArgumentSize.Short.get());
+        data.put((byte) ArgumentSize.Short.get());
         data.putShort(parameter);
     }
 
@@ -110,53 +110,82 @@ public class Command
     }
 
     /**
-     * Add the bytes in the array A byte are added before the parameters to
-     * specify the length (1, 2 or 4 bytes)
-     *
-     * @param parameters
-     *
-     *                   private void addParameter(byte[] parameters) {
-     *
-     * switch (parameters.length) {
-     *
-     * case 1: data.put((byte)ArgumentSize.Byte.get()); break;
-     *
-     * case 2: data.put((byte)ArgumentSize.Short.get()); break;
-     *
-     * case 3: case 4: data.put((byte)ArgumentSize.Int.get()); break; }
-     *
-     * for (byte b : parameters) data.put((byte)b); }
-     */
-    /**
      * Makes the motor turn at the specified power
      *
-     * @param port
+     * @param ports
      * @param power Power of the motor between -100 and 100%
+     * @throws core.ArgumentException
      */
     public void turnMotorAtPower(OutputPort ports, int power) throws ArgumentException
     {
-
         if (power < -100 || power > 100)
             throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
 
         addOpcode(Opcode.OutputPower);
-        addParameter((byte)0); // layer
-        addParameter((byte)ports.get());	// ports
-        addParameter((byte)power);	// power
+        addParameter((byte) 0); // layer
+        addParameter((byte) ports.get());	// ports
+        addParameter((byte) power);	// power
+    }
+    
+    /**
+     * Makes the motor turn at the specified speed
+     *
+     * @param ports
+     * @param speed Power of the motor between -100 and 100%
+     * @throws core.ArgumentException
+     */
+    public void turnMotorAtSpeed(OutputPort ports, int speed) throws ArgumentException
+    {
+        if (speed < -100 || speed > 100)
+            throw new ArgumentException("Speed must be between -100 and 100 inclusive.", "speed");
 
-        startMotor(ports);
+        addOpcode(Opcode.OutputSpeed);
+        addParameter((byte) 0); // layer
+        addParameter((byte) ports.get());	// ports
+        addParameter((byte) speed);	// power
+    }
+    
+    public void stepMotorSync(OutputPort ports, int speed, int turnRatio, int step, boolean brake) throws ArgumentException
+    {
+        if (speed < -100 || speed > 100)
+            throw new ArgumentException("Speed must be between -100 and 100 inclusive.", "speed");
+        
+        if (turnRatio < -200 || turnRatio > 200)
+            throw new ArgumentException("Turn ratio must be between -200 and 200 inclusive.", "turnRatio");
+
+        addOpcode(Opcode.OutputStepSync);
+        addParameter((byte) 0); // layer
+        addParameter((byte) ports.get());	
+        addParameter((byte) speed);	
+        addParameter((byte) turnRatio);	
+        addParameter((byte) step);	
+        addParameter((byte)(brake ? 1 : 0));
     }
 
     /**
+     * Makes the motor stop
+     *
+     * @param ports
+     * @param brake Apply power to stop the rotation
+     */
+    public void stopMotor(OutputPort ports, boolean brake)
+    {
+        addOpcode(Opcode.OutputStop);
+        addParameter((byte) 0); // layer
+        addParameter((byte) ports.get()); // ports
+        addParameter((byte)(brake ? 1 : 0));
+    }
+    
+    /**
      * Makes the motor start
      *
-     * @param port
+     * @param ports
      */
     public void startMotor(OutputPort ports)
     {
         addOpcode(Opcode.OutputStart);
-        addParameter((byte)0); // layer
-        addParameter((byte)ports.get()); // ports
+        addParameter((byte) 0); // layer
+        addParameter((byte) ports.get()); // ports
     }
 
     /**
@@ -171,8 +200,8 @@ public class Command
         int bytesCount = data.position() - 2;
 
         // little-endian
-        data.put(0, (byte)bytesCount);
-        data.put(1, (byte)(bytesCount >> 8));
+        data.put(0, (byte) bytesCount);
+        data.put(1, (byte) (bytesCount >> 8));
 
         byte[] ret = new byte[bytesCount + 2];
 

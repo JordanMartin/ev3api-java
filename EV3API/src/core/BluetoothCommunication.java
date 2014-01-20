@@ -21,8 +21,12 @@ public class BluetoothCommunication extends Communication
     public void open()
     {
         try {
+            
             System.out.println("Port opened: " + serialPort.openPort());
-            System.out.println("Params setted: " + serialPort.setParams(115200, 8, 1, 0));
+            System.out.println("Params setted: " + serialPort.setParams(SerialPort.BAUDRATE_115200,
+                                                                        SerialPort.DATABITS_8,
+                                                                        SerialPort.STOPBITS_1,
+                                                                        SerialPort.PARITY_NONE));
         } catch (SerialPortException e) {
             System.out.println(e.getMessage());
         }
@@ -31,10 +35,14 @@ public class BluetoothCommunication extends Communication
     @Override
     public void close()
     {
-        try {
-            System.out.println("Port closed: " + serialPort.closePort());
-        } catch (SerialPortException e) {
-            System.err.println("Error during disconnection : " + e.getMessage());
+        if (serialPort != null && serialPort.isOpened()) {
+            try {
+                serialPort.purgePort(1);
+                serialPort.purgePort(2);
+                System.out.println("Port closed: " + serialPort.closePort());
+            } catch (SerialPortException e) {
+                System.err.println("Error during disconnection : " + e.getMessage());
+            }
         }
     }
 
@@ -43,14 +51,21 @@ public class BluetoothCommunication extends Communication
     {
         try {
             serialPort.writeBytes(data);
-        
+
             for (byte b : data)
                 System.out.print((b & 0xff) + " ");
-            
+
             System.out.print("\n");
-            
+
         } catch (SerialPortException e) {
             System.err.println("Error to write bytes : " + e.getMessage());
         }
+    }
+
+    @Override
+    public void finalize() throws Throwable
+    {
+        super.finalize();
+        close();
     }
 }
