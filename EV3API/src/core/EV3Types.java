@@ -49,6 +49,10 @@ public class EV3Types
             return val;
         }
         
+        public void set(int val) {
+            this.val = val;
+        }
+        
         public static boolean isMember(int val) {
             ReplyType[] aReplyType = ReplyType.values();
             for(ReplyType a : aReplyType) {
@@ -146,6 +150,10 @@ public class EV3Types
             return val;
         }
         
+        public void set(int val) {
+            this.val = val;
+        }
+        
         public static boolean isMember(int val) {
             SystemOpcode[] aOpcode = SystemOpcode.values();
             for(SystemOpcode a : aOpcode) {
@@ -172,6 +180,26 @@ public class EV3Types
         UnknownError,
         IllegalFilename,
         IllegalConnection;
+        
+        int val;
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
+        
+        public static boolean isMember(int val) {
+            SystemReplyStatus[] aReplyStatus = SystemReplyStatus.values();
+            for(SystemReplyStatus a : aReplyStatus) {
+                if(a.val == val)
+                    return true;
+            }
+            return false;
+        }
+         
     }
 
     // The type of command being sent to the brick
