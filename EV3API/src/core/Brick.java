@@ -22,4 +22,9 @@ public class Brick {
     public void sendCommand(Command c){
         comm.write(c.toBytes());
     }
+
+    public void connect()
+    {
+        comm.open();
+    }
 }

@@ -144,24 +144,8 @@ public class Command
         addParameter((byte) ports.get());	// ports
         addParameter((byte) speed);	// power
     }
+
     
-    public void stepMotorSync(OutputPort ports, int speed, int turnRatio, int step, boolean brake) throws ArgumentException
-    {
-        if (speed < -100 || speed > 100)
-            throw new ArgumentException("Speed must be between -100 and 100 inclusive.", "speed");
-        
-        if (turnRatio < -200 || turnRatio > 200)
-            throw new ArgumentException("Turn ratio must be between -200 and 200 inclusive.", "turnRatio");
-
-        addOpcode(Opcode.OutputStepSync);
-        addParameter((byte) 0); // layer
-        addParameter((byte) ports.get());	
-        addParameter((byte) speed);	
-        addParameter((byte) turnRatio);	
-        addParameter((byte) step);	
-        addParameter((byte)(brake ? 1 : 0));
-    }
-
     /**
      * Makes the motor stop
      *

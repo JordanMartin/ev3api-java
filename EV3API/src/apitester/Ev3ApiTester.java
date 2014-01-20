@@ -13,16 +13,16 @@ import core.EV3Types.*;
 public class Ev3ApiTester {
 
     public static void main(String[] args) throws ArgumentException, InterruptedException {
+              
+        Brick ev3 = new Brick(new BluetoothCommunication("COM6"));
+        ev3.connect();
         
-        BluetoothCommunication comm = new BluetoothCommunication("COM6");
-        comm.open();
         
-        Brick ev3 = new Brick(comm);
-        ev3.directCommand.stepMotorSync(OutputPort.B, 50, 50, 360, false);
-        ev3.directCommand.turnMotorAtPower(OutputPort.C, 50);
+//        ev3.directCommand.turnMotorAtPower(OutputPort.C, 50);
+//        ev3.directCommand.turnMotorAtPower(OutputPort.B, 50);
         
-        Thread.sleep(2000);        
-        ev3.directCommand.stopMotor(OutputPort.All, false);
+//        Thread.sleep(2000);        
+//        ev3.directCommand.stopMotor(OutputPort.All, false);
 
         
     }
