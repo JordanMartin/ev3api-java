@@ -1,6 +1,8 @@
 package core;
 
 import core.EV3Types.ReplyType;
+import core.EV3Types.SystemOpcode;
+import core.EV3Types.SystemReplyStatus;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,9 +43,25 @@ public class ResponseManager {
         if(sequence > 0) {
             Response r = responses.get(sequence);
             
-            if(ReplyType.isMember(replyType)) {
-                r.ReplyType = (ReplyType) replyType;
+            if(ReplyType.isMember(replyType)) 
+                r.replyType.set(replyType);
+            
+            if(r.replyType == ReplyType.DirectReply || r.replyType == ReplyType.DirectReplyError) {
+                r.data = new byte[report.length - 3];
+                System.arraycopy(report, 3, r.data, 0, report.length - 3);
             }
+            else if(r.replyType == ReplyType.SystemReply || r.replyType == ReplyType.SystemReplyError) {
+                if(SystemOpcode.isMember(report[3]))
+                  r.systemCommand.set(report[3]);
+                
+                if(SystemReplyStatus.isMember(report[4]))
+                    r.systemReplyStatus.set(report[4]);
+                
+                r.data = new byte[report.length - 3];
+                System.arraycopy(report, 5, r.data, 0, report.length - 5);
+            }
+            
+            r.event.set();
         }
         
     }
