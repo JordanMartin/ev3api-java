@@ -48,6 +48,15 @@ public class EV3Types
         {
             return val;
         }
+        
+        public static boolean isMember(int val) {
+            ReplyType[] aReplyType = ReplyType.values();
+            for(ReplyType a : aReplyType) {
+                if(a.val == val)
+                    return true;
+            }
+            return false;
+        }
     }
 
     public enum Opcode
@@ -135,6 +144,15 @@ public class EV3Types
         public int get()
         {
             return val;
+        }
+        
+        public static boolean isMember(int val) {
+            SystemOpcode[] aOpcode = SystemOpcode.values();
+            for(SystemOpcode a : aOpcode) {
+                if(a.val == val)
+                    return true;
+            }
+            return false;
         }
     }
 

@@ -39,7 +39,7 @@ public class DirectCommand {
     }
     
     /**
-     * DONT USE FOR THE TIME - IT MAKE THE BRICK BUG
+     * DONT USE FOR THE TIME - IT MAKES THE BRICK BUG
      * @param ports
      * @param speed
      * @param turnRatio
