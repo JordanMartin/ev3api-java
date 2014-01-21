@@ -17,14 +17,16 @@ public class Ev3ApiTester {
         ev3.connect();
         
         ev3.directCommand.readUltrasonic(InputPort.Four);
-        ev3.directCommand.readGyroscope(InputPort.Two);
+        
         
 //        ev3.directCommand.turnMotorAtPower(OutputPort.C, 50);
 //        ev3.directCommand.turnMotorAtPower(OutputPort.B, 50);
 //        ev3.directCommand.stopMotor(OutputPort.All, false);
+                
         
-        Thread.sleep(1000);        
-        System.exit(0);
+        Thread.sleep(1000);    
+        
+        ev3.disconnect();
     }
     
 }

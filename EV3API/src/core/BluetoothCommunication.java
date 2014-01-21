@@ -67,6 +67,8 @@ public class BluetoothCommunication extends Communication
         @Override
         public void run()
         {
+            boolean error = false;
+            
             do{
                 
                 try {
@@ -76,15 +78,16 @@ public class BluetoothCommunication extends Communication
                         System.out.print("in : ");
 
                         for (byte b : data)
-                            System.out.print(b + " ");
+                            System.out.print((b & 0xff) + " ");
 
                         System.out.println();
                     }
                     
                 } catch (SerialPortException e) {
                     System.err.println("Read error");
+                    error = true;
                 }
-            }while(true);
+            }while(!error);
         }     
     }
     

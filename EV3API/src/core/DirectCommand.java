@@ -41,18 +41,17 @@ public class DirectCommand {
     
     public void readUltrasonic(InputPort port) throws ArgumentException
     {
-        Command c = new Command(CommandType.DirectReply, 100, 0);
-        //c.getTypeMode(port, 0, 1);
-        c.readRaw(port, DeviceType.Ultrasonic.get(), 0);
+        Command c = new Command(CommandType.DirectReply, 30, 0);
+        c.getTypeMode(port, 0, 1);
+        c.readRaw(port, DeviceType.Ultrasonic.get(), 3);
         brick.sendCommand(c);
     }
     
     public void readGyroscope(InputPort port) throws ArgumentException
     {
-        Command c = new Command(CommandType.DirectReply, 100, 0);
-        //c.getTypeMode(port, 0, 1);
-        c.readRaw(port, DeviceType.Gyroscope.get(), 0);
-        brick.sendCommand(c);
-        
+        Command c = new Command(CommandType.DirectReply, 15, 0);
+        c.getTypeMode(port, 0, 1);
+        c.readRaw(port, DeviceType.Gyroscope.get(), 3);
+        brick.sendCommand(c);        
     }
 }

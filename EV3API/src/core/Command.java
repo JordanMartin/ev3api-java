@@ -287,7 +287,7 @@ public class Command
         addParameter((byte) port.get()); // port
         addParameter((byte)0);              // type
         addParameter((byte) mode);	 // mode
-        addParameter(0x01);		 // # values
+        addParameter((byte)1);		 // # values
         addGlobalIndex((byte) index);	 // index for return data
     }
     

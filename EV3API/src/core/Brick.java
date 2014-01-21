@@ -27,5 +27,10 @@ public class Brick {
     public void connect()
     {
         comm.open();
-    }    
+    }   
+    
+    public void disconnect()
+    {
+        comm.close();
+    }
 }
