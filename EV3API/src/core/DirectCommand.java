@@ -31,6 +31,34 @@ public class DirectCommand {
         c.startMotor(ports);        
         brick.sendCommand(c);
     }
+    
+    public void turnMotorAtPowerForTime(OutputPort ports, int power, int ms, boolean brake) throws ArgumentException {
+        Command c = new Command(CommandType.DirectNoReply);
+        c.turnMotorAtPowerForTime(ports, power, ms, brake);
+        c.startMotor(ports);
+        brick.sendCommand(c);
+    }
+    
+    public void turnMotorAtPowerForTime(OutputPort ports, int power, int rampUp, int ms, int rampDown, boolean brake) throws ArgumentException {
+        Command c = new Command(CommandType.DirectNoReply);
+        c.turnMotorAtPowerForTime(ports, power, rampUp, ms, rampDown, brake);
+        c.startMotor(ports);
+        brick.sendCommand(c);
+    }
+    
+    public void stepMotorAtPower(OutputPort ports, int power, int steps, boolean brake) throws ArgumentException {
+        Command c = new Command(CommandType.DirectNoReply);
+        c.stepMotorAtPower(ports, power, steps, brake);
+        c.startMotor(ports);
+        brick.sendCommand(c);
+    }
+    
+    public void stepMotorAtPower(OutputPort ports, int power, int rampUpSteps, int constantSteps, int rampDownSteps, boolean brake) throws ArgumentException {
+        Command c = new Command(CommandType.DirectNoReply);
+        c.stepMotorAtPower(ports, power, rampUpSteps, constantSteps, rampDownSteps, brake);
+        c.startMotor(ports);
+        brick.sendCommand(c);
+    }
 
     public void stopMotor(OutputPort ports, boolean brake) throws ArgumentException
     {

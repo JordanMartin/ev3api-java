@@ -239,6 +239,79 @@ public class Command
         addParameter((byte) ports.get());	// ports
         addParameter((byte) speed);	// power
     }
+    
+    /**
+     * Turn the motor connected to the specified port or ports at the specified power for the specified times.
+     * @param ports A specific port or Ports.All.
+     * @param power The power at which to turn the motor (-100% to 100%).
+     * @param ms Number of milliseconds to run at constant power.
+     * @param brake Apply brake to motor at end of routine.
+     * @throws ArgumentException 
+     */
+    public void turnMotorAtPowerForTime(OutputPort ports, int power, int ms, boolean brake) throws ArgumentException {
+        turnMotorAtPowerForTime(ports, power, 0, ms, 0, brake);
+    }
+    
+    
+    /**
+     * Turn the motor connected to the specified port or ports at the specified power for the specified times.
+     * @param ports A specific port or Ports.All.
+     * @param power The power at which to turn the motor (-100% to 100%).
+     * @param msRampUp Number of milliseconds to get up to power.
+     * @param msConstant Number of milliseconds to run at constant power.
+     * @param msRampDown Number of milliseconds to power down to a stop.
+     * @param brake Apply brake to motor at end of routine.
+     * @throws ArgumentException 
+     */
+    public void turnMotorAtPowerForTime(OutputPort ports, int power, int msRampUp, int msConstant, int msRampDown, boolean brake) throws ArgumentException {
+        if (power < -100 || power > 100)
+            throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
+        
+        addOpcode(Opcode.OutputTimePower);
+        addParameter(0x00); //layer
+        addParameter((byte)ports.get());
+        addParameter((byte)power);
+        addParameter(msRampUp);
+        addParameter(msConstant);
+        addParameter(msRampDown);
+        addParameter((byte)(brake ? 0x01 : 0x00)); // brake (0=coast, 1 = brake)
+    }
+    
+    /**
+     * Step the motor connected to the specified port or ports at the specified power for the specified number of steps.
+     * @param ports A specific port or Ports.All.
+     * @param power The power at which to turn the motor (-100% to 100%).
+     * @param steps The number of steps to turn the motor.
+     * @param brake Apply brake to motor at end of routine.
+     * @throws ArgumentException 
+     */
+    public void stepMotorAtPower(OutputPort ports, int power, int steps, boolean brake) throws ArgumentException {
+        stepMotorAtPower(ports, power, 0, steps, 10, brake);
+    }
+    
+    /**
+     * Step the motor connected to the specified port or ports at the specified power for the specified number of steps.
+     * @param ports A specific port or Ports.All.
+     * @param power The power at which to turn the motor (-100% to 100%).
+     * @param rampUpSteps 
+     * @param constantSteps The number of steps to turn the motor.
+     * @param rampDownSteps
+     * @param brake Apply brake to motor at end of routine.
+     * @throws ArgumentException 
+     */
+    public void stepMotorAtPower(OutputPort ports, int power, int rampUpSteps, int constantSteps, int rampDownSteps, boolean brake) throws ArgumentException {
+        if (power < -100 || power > 100)
+            throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
+        
+        addOpcode(Opcode.OutputStepPower);
+        addParameter(0x00); //layer
+        addParameter((byte)ports.get());
+        addParameter((byte)power);
+        addParameter(rampUpSteps);
+        addParameter(constantSteps);
+        addParameter(rampDownSteps);
+        addParameter((byte)(brake ? 0x01 : 0x00)); // brake (0=coast, 1 = brake)
+    }
 
     
     /**
