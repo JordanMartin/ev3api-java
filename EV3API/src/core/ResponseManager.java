@@ -21,10 +21,11 @@ public class ResponseManager {
     private static int getSequenceNumber() {
         if(nextSequence == 0xFFFF)
             ResponseManager.nextSequence++;
-        return nextSequence;
+        
+        return nextSequence++;
     }
     
-    public static Response CreateResponse() {
+    public static Response createResponse() {
         int sequence = getSequenceNumber();
         
         Response r = new Response(sequence);
@@ -62,7 +63,6 @@ public class ResponseManager {
             }
             
             r.event.set();
-        }
-        
+        }        
     }
 }

@@ -8,5 +8,5 @@ public abstract class Communication
 {
     abstract void open();
     abstract void close();
-    abstract void write(byte[] data);
+    abstract boolean write(byte[] data);
 }

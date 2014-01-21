@@ -30,6 +30,11 @@ public class BluetoothCommunication extends Communication
         } catch (SerialPortException e) {
             System.out.println(e.getMessage());
         }
+        
+        if(serialPort.isOpened()){
+            new Thread(new DataReaderAsync()).start();
+           
+        }
     }
 
     @Override
@@ -47,21 +52,42 @@ public class BluetoothCommunication extends Communication
     }
 
     @Override
-    public void write(byte[] data)
+    public boolean write(byte[] data)
     {
         try {
-            serialPort.writeBytes(data);
-
-            for (byte b : data)
-                System.out.print((b & 0xff) + " ");
-
-            System.out.print("\n");
-
+            return serialPort.writeBytes(data);
         } catch (SerialPortException e) {
             System.err.println("Error to write bytes : " + e.getMessage());
+            return false;
         }
     }
 
+    class DataReaderAsync implements Runnable
+    {
+        @Override
+        public void run()
+        {
+            do{
+                
+                try {
+                    if (serialPort.getInputBufferBytesCount() > 0) {
+                        byte[] data = serialPort.readBytes();
+
+                        System.out.print("in : ");
+
+                        for (byte b : data)
+                            System.out.print(b + " ");
+
+                        System.out.println();
+                    }
+                    
+                } catch (SerialPortException e) {
+                    System.err.println("Read error");
+                }
+            }while(true);
+        }     
+    }
+    
     @Override
     public void finalize() throws Throwable
     {

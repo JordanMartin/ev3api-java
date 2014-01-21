@@ -20,11 +20,12 @@ public class Brick {
     }
     
     public void sendCommand(Command c){
+        System.out.println("out : " + c);
         comm.write(c.toBytes());
     }
 
     public void connect()
     {
         comm.open();
-    }
+    }    
 }

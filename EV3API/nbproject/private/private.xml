@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/Documents/Dev/NetBeansProjects/EV3API/src/core/EV3API.java</file>
-            <file>file:/G:/Documents/Dev/NetBeansProjects/EV3API/src/core/Communication.java</file>
-            <file>file:/G:/Documents/Dev/NetBeansProjects/EV3API/src/core/Brick.java</file>
-            <file>file:/G:/Documents/Dev/NetBeansProjects/EV3API/src/core/Enums.java</file>
+            <file>file:/G:/Documents/GitHub/ev3api-java/EV3API/src/core/EV3Types.java</file>
+            <file>file:/G:/Documents/GitHub/ev3api-java/EV3API/src/core/Brick.java</file>
+            <file>file:/G:/Documents/GitHub/ev3api-java/EV3API/src/core/DirectCommand.java</file>
+            <file>file:/G:/Documents/GitHub/ev3api-java/EV3API/src/apitester/Ev3ApiTester.java</file>
+            <file>file:/G:/Documents/GitHub/ev3api-java/EV3API/src/core/Command.java</file>
         </group>
     </open-files>
 </project-private>

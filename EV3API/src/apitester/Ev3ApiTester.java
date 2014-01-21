@@ -3,7 +3,6 @@ package apitester;
 import core.ArgumentException;
 import core.BluetoothCommunication;
 import core.Brick;
-import core.Command;
 import core.EV3Types.*;
 
 /**
@@ -17,14 +16,15 @@ public class Ev3ApiTester {
         Brick ev3 = new Brick(new BluetoothCommunication("COM6"));
         ev3.connect();
         
+        ev3.directCommand.readUltrasonic(InputPort.Four);
+        ev3.directCommand.readGyroscope(InputPort.Two);
         
 //        ev3.directCommand.turnMotorAtPower(OutputPort.C, 50);
 //        ev3.directCommand.turnMotorAtPower(OutputPort.B, 50);
-        
-//        Thread.sleep(2000);        
 //        ev3.directCommand.stopMotor(OutputPort.All, false);
-
         
+        Thread.sleep(1000);        
+        System.exit(0);
     }
     
 }
