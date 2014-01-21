@@ -81,7 +81,8 @@ public class BluetoothCommunication extends Communication
                             System.out.print((b & 0xff) + " ");
 
                         System.out.println();
-                    }
+                    }else
+                        Thread.yield();
                     
                 } catch (SerialPortException e) {
                     System.err.println("Read error");

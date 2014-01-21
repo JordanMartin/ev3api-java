@@ -10,7 +10,6 @@ public class EV3Types
 
     public enum ArgumentSize
     {
-
         Byte(0x81), // 1 byte
         Short(0x82), // 2 bytes
         Int(0x83), // 4 bytes
@@ -31,7 +30,6 @@ public class EV3Types
 
     public enum ReplyType
     {
-
         DirectReply(0x02),
         SystemReply(0x03),
         DirectReplyError(0x04),
@@ -131,7 +129,6 @@ public class EV3Types
 
     public enum SystemOpcode
     {
-
         BeginDownload(0x92),
         ContinueDownload(0x93),
         CloseFileHandle(0x98),
@@ -164,9 +161,8 @@ public class EV3Types
         }
     }
 
-    enum SystemReplyStatus
+    public enum SystemReplyStatus
     {
-
         Success,
         UnknownHandle,
         HandleNotReady,
@@ -205,7 +201,6 @@ public class EV3Types
     // The type of command being sent to the brick
     public enum CommandType
     {
-
         // Direct command with a reply expected
         DirectReply(0x00),
         // Direct command with no reply
@@ -231,7 +226,6 @@ public class EV3Types
     // Format for sensor data.
     public enum Format
     {
-
         // Percentage
         Percent(0x10),
         // Raw
@@ -255,7 +249,6 @@ public class EV3Types
     // Polarity/direction to turn the motor	
     public enum Polarity
     {
-
         Backward(-1),
         Opposite(0),
         Forward(1);
@@ -276,7 +269,6 @@ public class EV3Types
     // Ports which can receive input data
     public enum InputPort
     {
-
         One(0x00),
         Two(0x01),
         Three(0x02),
@@ -302,7 +294,6 @@ public class EV3Types
     // Ports which can send output
     public enum OutputPort
     {
-
         A(0x01),
         B(0x02),
         C(0x04),
@@ -322,11 +313,9 @@ public class EV3Types
         }
     }
 
-	// List of devices which can be recognized as input or output devices
+    // List of devices which can be recognized as input or output devices
     public enum DeviceType
-    {
-		// NXT devices
-
+    {	
         // NXT Touch sensor
         NxtTouch(1),
         // NXT Light sensor
@@ -382,9 +371,8 @@ public class EV3Types
     }
 
 	// Buttons on the face of the EV3 brick
-    enum BrickButton
+    public enum BrickButton
     {
-
         // No button
         None,
         // Up button
@@ -404,9 +392,8 @@ public class EV3Types
     }
 
 	// Pattern to light up the EV3 brick's LED
-    enum LedPattern
+    public enum LedPattern
     {
-
         // LED off		
         Black,
         // Solid green		
@@ -430,7 +417,7 @@ public class EV3Types
     }
 
     // UI colors
-    enum Color
+    public enum Color
     {
 
         // Color of the background		
@@ -440,9 +427,8 @@ public class EV3Types
     }
 
     // Font types for drawing text to the screen
-    enum FontType
+    public enum FontType
     {
-
         // Small font		
         Small,
         // Medium font		
@@ -452,9 +438,8 @@ public class EV3Types
     }
 
     // NXT and EV3 Touch Sensor mode
-    enum TouchMode
+    public enum TouchMode
     {
-
         // On when pressed, off when released		
         Touch,
         // Running counter of number of presses		
@@ -462,9 +447,8 @@ public class EV3Types
     }
 
     // NXT Light Sensor mode
-    enum NxtLightMode
+    public enum NxtLightMode
     {
-
         // Amount of reflected light		
         Reflect,
         // Amoutn of ambient light		
@@ -472,7 +456,7 @@ public class EV3Types
     }
 
     // NXT Sound Sensor mode
-    enum NxtSoundMode
+    public enum NxtSoundMode
     {
 
         // Decibels		
@@ -482,9 +466,8 @@ public class EV3Types
     }
 
     // NXT Color Sensor mode
-    enum NxtColorMode
+    public enum NxtColorMode
     {
-
         // Reflected color		
         Reflective,
         // Ambient color		
@@ -500,9 +483,8 @@ public class EV3Types
     }
 
     // NXT Ultrasonic Sensor mode
-    enum NxtUltrasonicMode
+    public enum NxtUltrasonicMode
     {
-
         // Values in centimeter units		
         Centimeters,
         // Values in inch units		
@@ -510,7 +492,7 @@ public class EV3Types
     }
 
     // NXT Temperature Sensor mode
-    enum NxtTemperatureMode
+    public enum NxtTemperatureMode
     {
 
         // Values in Celsius units		
@@ -520,9 +502,8 @@ public class EV3Types
     }
 
     // Motor mode
-    enum MotorMode
+    public enum MotorMode
     {
-
         // Values in degrees		
         Degrees,
         // Values in rotations		
@@ -532,9 +513,8 @@ public class EV3Types
     }
 
     // EV3 Color Sensor mode
-    enum ColorMode
+    public enum ColorMode
     {
-
         // Reflected color		
         Reflective,
         // Ambient color		
@@ -550,9 +530,8 @@ public class EV3Types
     }
 
     // EV3 Ultrasonic Sensor mode
-    enum UltrasonicMode
+    public enum UltrasonicMode
     {
-
         // Values in centimeter units		
         Centimeters,
         // Values in inch units		
@@ -571,9 +550,8 @@ public class EV3Types
     }
 
     // EV3 Gyroscope Sensor mode
-    enum GyroscopeMode
+    public enum GyroscopeMode
     {
-
         // Angle		
         Angle,
         // Rate of movement		
@@ -589,9 +567,8 @@ public class EV3Types
     }
 
     // EV3 Infrared Sensor mode
-    enum InfraredMode
+    public enum InfraredMode
     {
-
         // Proximity		
         Proximity,
         // Seek		
@@ -609,9 +586,8 @@ public class EV3Types
     }
 
     // Values returned by the color sensor
-    enum ColorSensorColor
+    public enum ColorSensorColor
     {
-
         Transparent,
         Black,
         Blue,

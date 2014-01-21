@@ -9,7 +9,6 @@ import core.EV3Types.*;
 public class DirectCommand {
     
     private final Brick brick;
-    private final int responseSize = 11;
 
     public DirectCommand(Brick brick)
     {
@@ -41,17 +40,63 @@ public class DirectCommand {
     
     public void readUltrasonic(InputPort port) throws ArgumentException
     {
-        Command c = new Command(CommandType.DirectReply, 30, 0);
-        c.getTypeMode(port, 0, 1);
-        c.readRaw(port, DeviceType.Ultrasonic.get(), 3);
+        if(!isSensorPort(port))
+            throw new ArgumentException("The specified port is not a sensor port", "port");
+        
+        int responseSize = 6;
+        int index = 0;
+        
+        Command c = new Command(CommandType.DirectReply, responseSize, 0);
+        c.getTypeMode(port, index, index+1);
+        c.readRaw(port, UltrasonicMode.Centimeters.ordinal(), index+2);
         brick.sendCommand(c);
     }
     
     public void readGyroscope(InputPort port) throws ArgumentException
     {
-        Command c = new Command(CommandType.DirectReply, 15, 0);
-        c.getTypeMode(port, 0, 1);
-        c.readRaw(port, DeviceType.Gyroscope.get(), 3);
+        if(!isSensorPort(port))
+            throw new ArgumentException("The specified port is not a sensor port", "port");
+        
+        int responseSize = 6;
+        int index = 0;
+        
+        Command c = new Command(CommandType.DirectReply, responseSize, 0);
+        c.getTypeMode(port, index, index+1);
+        c.readRaw(port, GyroscopeMode.Angle.ordinal(), index+2);
         brick.sendCommand(c);        
+    }
+    
+    public void getTypeMode(InputPort port) throws ArgumentException
+    {
+        int responseSize = 6;
+        int index = 0;
+        
+        Command c = new Command(CommandType.DirectReply, responseSize, 0);
+        c.getTypeMode(port, index, index+1);
+        brick.sendCommand(c); 
+    }
+    
+    public void readTachoCount(InputPort port) throws ArgumentException
+    {
+        if(!isMotorPort(port))
+            throw new ArgumentException("The specified port is not a motor port", "port");
+        
+        int responseSize = 6;
+        int index = 0;
+        
+        Command c = new Command(CommandType.DirectReply, responseSize, 0);
+        c.getTypeMode(port, index, index+1);
+        c.readRaw(port, MotorMode.Degrees.ordinal(), index+2);
+        brick.sendCommand(c); 
+    }
+    
+    public static boolean isMotorPort(InputPort port){
+        return (port == InputPort.A || port == InputPort.B ||
+            port == InputPort.C || port == InputPort.D);
+    }
+    
+    public static boolean isSensorPort(InputPort port){
+        return (port == InputPort.One || port == InputPort.Two ||
+            port == InputPort.Three || port == InputPort.Four);
     }
 }
