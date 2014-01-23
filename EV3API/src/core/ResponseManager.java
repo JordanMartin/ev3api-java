@@ -36,7 +36,7 @@ public class ResponseManager
         new waitResponseThread(r).start();
     }
     
-    public static void HandleResponse(byte[] report) {
+    public static void handleResponse(byte[] report) {
         if(report == null || report.length < 3) {
             return;
         }

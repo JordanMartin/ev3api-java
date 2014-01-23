@@ -11,7 +11,9 @@ public class BluetoothCommunication extends Communication
 {
 
     SerialPort serialPort;
-
+    
+    
+    
     public BluetoothCommunication(String commPort)
     {
         serialPort = new SerialPort(commPort);
@@ -82,6 +84,7 @@ public class BluetoothCommunication extends Communication
     {
         int messageSize = EndianConverter.swapToShort(new byte[]{data[0], data[1]});
 //        System.out.println("Message size : " + messageSize + "\n");
+        fireDataReceived(data);
     }
 
     
@@ -99,7 +102,8 @@ public class BluetoothCommunication extends Communication
                 
                 try {
                     if (serialPort.getInputBufferBytesCount() > 0) {
-                        byte[] data = serialPort.readBytes();
+                        short msgLength = EndianConverter.swapToShort(serialPort.readBytes(2));
+                        byte[] data = serialPort.readBytes(msgLength);
                         dataReceived(data);
 
                         ///////// DEBUG ///////
