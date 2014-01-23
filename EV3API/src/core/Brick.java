@@ -1,5 +1,7 @@
 package core;
 
+import core.EV3Types.*;
+
 
 /**
  *
@@ -19,9 +21,13 @@ public class Brick {
         directCommand = new DirectCommand(this);
     }
     
-    public void sendCommand(Command c){
+    public void sendCommand(Command c)
+    {
         System.out.println("out : " + c);
         comm.write(c.toBytes());
+        
+        if(c.commandType == CommandType.DirectReply || c.commandType == CommandType.SystemReply)
+            ResponseManager.waitForResponse(c.response);
     }
 
     public void connect()

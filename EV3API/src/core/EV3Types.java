@@ -100,6 +100,9 @@ public class EV3Types
         InputReadExt(0x9e),
         InputReadSI(0x9d),
         
+        OutputGetType(0xa0),
+        OutputSetType(0xa1),
+        OutputReset(0xa2),
         OutputStop(0xa3),
         OutputPower(0xa4),
         OutputSpeed(0xa5),
@@ -111,6 +114,10 @@ public class EV3Types
         OutputTimeSpeed(0xaf),
         OutputStepSync(0xb0),
         OutputTimeSync(0xb1),
+        
+        OutputClearCount(0xb2),
+        OutputGetCount(0xb3),
+        OutputPrgStop(0xb4),
         
         Tst(0xff);
 
@@ -179,6 +186,10 @@ public class EV3Types
         
         int val;
         
+        private SystemReplyStatus(){
+            val = this.ordinal();
+        }
+        
         public int get() {
             return val;
         }
@@ -187,15 +198,15 @@ public class EV3Types
             this.val = val;
         }
         
-        public static boolean isMember(int val) {
+        public static boolean isMember(int val) 
+        {
             SystemReplyStatus[] aReplyStatus = SystemReplyStatus.values();
             for(SystemReplyStatus a : aReplyStatus) {
                 if(a.val == val)
                     return true;
             }
             return false;
-        }
-         
+        }         
     }
 
     // The type of command being sent to the brick
@@ -289,6 +300,7 @@ public class EV3Types
         {
             return val;
         }
+        
     }
 
     // Ports which can send output
@@ -311,6 +323,7 @@ public class EV3Types
         {
             return val;
         }
+
     }
 
     // List of devices which can be recognized as input or output devices
@@ -368,6 +381,7 @@ public class EV3Types
         {
             return val;
         }
+        
     }
 
 	// Buttons on the face of the EV3 brick
@@ -388,7 +402,21 @@ public class EV3Types
         // Back button		
         Back,
         // Any button		
-        Any
+        Any;
+        
+        int val;
+        
+        private BrickButton(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
 	// Pattern to light up the EV3 brick's LED
@@ -413,17 +441,44 @@ public class EV3Types
         // Pulsing red		
         RedPulse,
         // Pulsing orange		
-        OrangePulse
+        OrangePulse;
+        
+        int val;
+        
+        private LedPattern(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // UI colors
     public enum Color
     {
-
         // Color of the background		
         Background,
         // Color of the foreground		
-        Foreground
+        Foreground;
+        
+        int val;
+        
+        private Color(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // Font types for drawing text to the screen
@@ -434,7 +489,21 @@ public class EV3Types
         // Medium font		
         Medium,
         // Large font		
-        Large
+        Large;
+        
+        int val;
+        
+        private FontType(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // NXT and EV3 Touch Sensor mode
@@ -443,7 +512,21 @@ public class EV3Types
         // On when pressed, off when released		
         Touch,
         // Running counter of number of presses		
-        Bumps
+        Bumps;
+        
+        int val;
+        
+        private TouchMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // NXT Light Sensor mode
@@ -452,7 +535,21 @@ public class EV3Types
         // Amount of reflected light		
         Reflect,
         // Amoutn of ambient light		
-        Ambient
+        Ambient;
+        
+        int val;
+        
+        private NxtLightMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // NXT Sound Sensor mode
@@ -462,7 +559,21 @@ public class EV3Types
         // Decibels		
         Decibels,
         // Adjusted Decibels		
-        AdjustedDecibels
+        AdjustedDecibels;
+        
+        int val;
+        
+        private NxtSoundMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // NXT Color Sensor mode
@@ -479,7 +590,21 @@ public class EV3Types
         // Amount of blue		
         Blue,
         // Raw sensor value		
-        Raw
+        Raw;
+        
+        int val;
+        
+        private NxtColorMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // NXT Ultrasonic Sensor mode
@@ -488,17 +613,44 @@ public class EV3Types
         // Values in centimeter units		
         Centimeters,
         // Values in inch units		
-        Inches
+        Inches;
+        
+        int val;
+        
+        private NxtUltrasonicMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // NXT Temperature Sensor mode
     public enum NxtTemperatureMode
     {
-
         // Values in Celsius units		
         Celsius,
         // Values in Fahrenheit units		
-        Fahrenheit,
+        Fahrenheit;
+        
+        int val;
+        
+        private NxtTemperatureMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // Motor mode
@@ -509,7 +661,21 @@ public class EV3Types
         // Values in rotations		
         Rotations,
         // Values in percentage		
-        Percent
+        Percent;
+        
+        int val;
+        
+        private MotorMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // EV3 Color Sensor mode
@@ -526,7 +692,21 @@ public class EV3Types
         // Reflected color RGB value		
         ReflectiveRgb,
         // Calibration		
-        Calibration // TODO: ??
+        Calibration; // TODO: ??
+        
+        int val;
+        
+        private ColorMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        } 
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // EV3 Ultrasonic Sensor mode
@@ -546,7 +726,21 @@ public class EV3Types
         DcCentimeters, // TODO: DC?
 
         // Unknown		
-        DcInches		// TODO: DC?
+        DcInches; // TODO: DC?
+        
+        int val;
+        
+        private UltrasonicMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // EV3 Gyroscope Sensor mode
@@ -558,12 +752,24 @@ public class EV3Types
         Rate,
         // Unknown		
         Fas, // TOOD: ??
-
         // Unknown		
         GandA, // TODO: ??
-
         // Calibrate		
-        Calibrate
+        Calibrate;
+        
+        int val;
+        
+        private GyroscopeMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // EV3 Infrared Sensor mode
@@ -582,7 +788,21 @@ public class EV3Types
         SAlt, // TODO: ??
 
         //  Calibrate
-        Calibrate
+        Calibrate;
+        
+        int val;
+        
+        private InfraredMode(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 
     // Values returned by the color sensor
@@ -595,6 +815,20 @@ public class EV3Types
         Yellow,
         Red,
         White,
-        Brown
+        Brown;
+        
+        int val;
+        
+        private ColorSensorColor(){
+            val = this.ordinal();
+        }
+        
+        public int get() {
+            return val;
+        }
+        
+        public void set(int val) {
+            this.val = val;
+        }
     }
 }

@@ -6,7 +6,7 @@ package core;
  */
 public abstract class Communication
 {
-    abstract void open();
+    abstract boolean open();
     abstract void close();
     abstract boolean write(byte[] data);
 }

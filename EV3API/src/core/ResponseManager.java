@@ -10,13 +10,11 @@ import java.util.Map;
  *
  * @author Jordan
  */
-public class ResponseManager {
+public class ResponseManager 
+{    
     private static int nextSequence = 0x0001;
-    private static Map<Integer, Response> responses = new HashMap<>();
+    private static final Map<Integer, Response> responses = new HashMap<>();
     
-    public ResponseManager() {
-        
-    }
     
     private static int getSequenceNumber() {
         if(nextSequence == 0xFFFF)
@@ -31,6 +29,11 @@ public class ResponseManager {
         Response r = new Response(sequence);
         responses.put(sequence, r);
         return r;
+    }
+    
+    public static void waitForResponse(Response r)
+    {
+        new waitResponseThread(r).start();
     }
     
     public static void HandleResponse(byte[] report) {
@@ -64,5 +67,27 @@ public class ResponseManager {
             
             r.event.set();
         }        
+    }
+    
+    static class waitResponseThread extends Thread
+    {
+        private final Response response;
+        
+        public waitResponseThread(Response r)
+        {
+            response = r;
+        }
+        
+        @Override
+        public void run()
+        {
+            try {
+                if(response.event.waitOne(1000))
+                    responses.remove(response.sequence);
+                else
+                    response.replyType = ReplyType.DirectReplyError;
+                
+            } catch (InterruptedException e) {}
+        }
     }
 }
