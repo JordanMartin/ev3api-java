@@ -18,7 +18,7 @@ public class Ev3ApiTester {
         ev3.connect();
         
         Scanner s = new Scanner(System.in);
-        
+
         boolean next = true;        
         
         while(next)
@@ -42,11 +42,10 @@ public class Ev3ApiTester {
                 case "q": next = false; break;
                     
                 default:
-//                    ev3.directCommand.readTachoCount(InputPort.A);
-//                    ev3.directCommand.readTachoCount(InputPort.D);
-//                    ev3.directCommand.readUltrasonic(InputPort.Four);
-                    ev3.directCommand.readGyroscope(InputPort.Two);
-                    ev3.directCommand.readCompass(InputPort.One);
+                    System.out.println(ev3.directCommand.readTachoCount(InputPort.A));
+                    System.out.println(ev3.directCommand.readTachoCount(InputPort.D));
+                    System.out.println(ev3.directCommand.readUltrasonic(InputPort.Four));
+                    System.out.println(ev3.directCommand.readGyroscope(InputPort.Two));
             }
         }
 

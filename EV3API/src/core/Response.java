@@ -8,12 +8,12 @@ import core.EV3Types.*;
  */
 public class Response {
     
-    ReplyType replyType;
+    ReplyType replyType = ReplyType.DirectReplyError;
     int sequence;
     ManualResetEvent event;
     byte[] data;
-    SystemOpcode systemCommand;
-    SystemReplyStatus systemReplyStatus;
+    SystemOpcode systemCommand = SystemOpcode.BeginDownload;
+    SystemReplyStatus systemReplyStatus = SystemReplyStatus.UnknownError;
     
     public Response(int sequence) {
         this.sequence = sequence;

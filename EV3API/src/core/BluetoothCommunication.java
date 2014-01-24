@@ -82,8 +82,6 @@ public class BluetoothCommunication extends Communication
     
     private void dataReceived(byte[] data)
     {
-        int messageSize = EndianConverter.swapToShort(new byte[]{data[0], data[1]});
-//        System.out.println("Message size : " + messageSize + "\n");
         fireDataReceived(data);
     }
 
@@ -104,14 +102,16 @@ public class BluetoothCommunication extends Communication
                     if (serialPort.getInputBufferBytesCount() > 0) {
                         short msgLength = EndianConverter.swapToShort(serialPort.readBytes(2));
                         byte[] data = serialPort.readBytes(msgLength);
-                        dataReceived(data);
+                        
 
                         ///////// DEBUG ///////
-                        System.out.print("in : ");
-                        for (byte b : data)
-                            System.out.print((b & 0xff) + " ");
-                        System.out.println();
+//                        System.out.print("in : ");
+//                        for (byte b : data)
+//                            System.out.print((b & 0xff) + " ");
+//                        System.out.println();
                         // \\\\\\\\ DEBUG\\\\\\
+                        
+                        dataReceived(data);
                         
                     }else
                         Thread.yield();

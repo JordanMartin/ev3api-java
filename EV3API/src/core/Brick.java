@@ -24,11 +24,11 @@ public class Brick {
     
     public void sendCommand(Command c)
     {
-        System.out.println("out : " + c);
+//        System.out.println("out : " + c);
         comm.write(c.toBytes());
         
         if(c.commandType == CommandType.DirectReply || c.commandType == CommandType.SystemReply)
-            ResponseManager.waitForResponse(c.response);
+            ResponseManager.listenForResponse(c.response, true);
     }
 
     public boolean connect()

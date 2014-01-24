@@ -3,6 +3,7 @@ package core;
 import core.EV3Types.ReplyType;
 import core.EV3Types.SystemOpcode;
 import core.EV3Types.SystemReplyStatus;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +31,19 @@ public class ResponseManager
         return r;
     }
     
-    public static void waitForResponse(Response r)
+    
+    public static void listenForResponse(Response response, boolean waitReceived)
     {
-        new waitResponseThread(r).start();
+        if(waitReceived)
+        {
+            try {
+                if(response.event.waitOne(1000))
+                    responses.remove(response.sequence);
+                else
+                    response.replyType = ReplyType.DirectReplyError;
+            } catch (InterruptedException ex) { }
+        }else
+            new waitResponseThreadAsync(response).start();
     }
     
     public static void handleResponse(byte[] report) {
@@ -40,8 +51,9 @@ public class ResponseManager
             return;
         }
         
-        int sequence = (int) (report[0] | (report[1] << 8)); // << bit shifting of 8 to the left
-        int replyType = report[2];
+        int sequence = EndianConverter.getShort(new byte[]{report[0], report[1]});
+        
+        int replyType = report[2] & 0xff;
         
         if(sequence > 0) {
             Response r = responses.get(sequence);
@@ -50,29 +62,25 @@ public class ResponseManager
                 r.replyType.set(replyType);
             
             if(r.replyType == ReplyType.DirectReply || r.replyType == ReplyType.DirectReplyError) {
-                r.data = new byte[report.length - 3];
-                System.arraycopy(report, 3, r.data, 0, report.length - 3);
+                r.data = Arrays.copyOfRange(report, 3, report.length);
             }
             else if(r.replyType == ReplyType.SystemReply || r.replyType == ReplyType.SystemReplyError) {
-                if(SystemOpcode.isMember(report[3]))
-                  r.systemCommand.set(report[3]);
+                if(SystemOpcode.isMember(report[3] & 0xff))
+                  r.systemCommand.set(report[3] & 0xff);
                 
-                if(SystemReplyStatus.isMember(report[4]))
-                    r.systemReplyStatus.set(report[4]);
-                
-                r.data = new byte[report.length - 3];
-                System.arraycopy(report, 5, r.data, 0, report.length - 5);
+                if(SystemReplyStatus.isMember(report[4] & 0xff))
+                    r.systemReplyStatus.set(report[4] & 0xff);
             }
             
             r.event.set();
         }        
     }
     
-    static class waitResponseThread extends Thread
+    static class waitResponseThreadAsync extends Thread
     {
         private final Response response;
         
-        public waitResponseThread(Response r)
+        public waitResponseThreadAsync(Response r)
         {
             response = r;
         }
