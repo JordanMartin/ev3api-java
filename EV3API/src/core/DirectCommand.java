@@ -1,7 +1,6 @@
 package core;
 
 import core.EV3Types.*;
-import java.util.Arrays;
 
 /**
  *
@@ -37,7 +36,7 @@ public class DirectCommand {
     {
         Command c = new Command(CommandType.DirectNoReply);
         c.turnMotorAtPower(ports, power);
-        c.startMotor(ports);        
+        c.startMotor(ports);
         brick.sendCommand(c);
     }
     

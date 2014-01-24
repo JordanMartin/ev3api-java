@@ -1,6 +1,10 @@
 package core;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
 /**
@@ -42,7 +46,27 @@ public class BluetoothCommunication extends Communication
         
         
         if(serialPort.isOpened()){
-            new Thread(new DataReaderAsync()).start();
+            //new Thread(new DataReaderAsync()).start(); // Active wait (bad)
+            
+            try {
+                serialPort.setEventsMask(SerialPort.MASK_RXCHAR); // Listen input data event
+                serialPort.addEventListener(new SerialPortEventListener()
+                {
+                    @Override
+                    public void serialEvent(SerialPortEvent serialPortEvent)
+                    {
+                        try {
+                            short msgLength = EndianConverter.swapToShort(serialPort.readBytes(2));
+                            byte[] data = serialPort.readBytes(msgLength);
+                            dataReceived(data);
+                        } catch (SerialPortException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    }
+                });
+            } catch (SerialPortException e) {
+                System.err.println(e.getMessage());
+            }
            
         }
         
@@ -82,6 +106,9 @@ public class BluetoothCommunication extends Communication
     
     private void dataReceived(byte[] data)
     {
+        for (byte b : data)
+            System.out.print((b & 0xff) + " ");
+        System.out.println();
         fireDataReceived(data);
     }
 

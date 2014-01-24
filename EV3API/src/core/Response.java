@@ -19,4 +19,8 @@ public class Response {
         this.sequence = sequence;
         event = new ManualResetEvent(false);
     }
+    
+    public byte[] getData(){
+        return data;
+    }
 }

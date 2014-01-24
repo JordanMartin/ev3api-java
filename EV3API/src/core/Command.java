@@ -10,9 +10,8 @@ import java.nio.charset.Charset;
  */
 public class Command
 {
-
     private ByteBuffer data;
-    Response response;
+    public Response response;
     final CommandType commandType;
     
     public Command(CommandType commandType) throws ArgumentException

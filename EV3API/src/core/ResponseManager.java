@@ -41,7 +41,9 @@ public class ResponseManager
                     responses.remove(response.sequence);
                 else
                     response.replyType = ReplyType.DirectReplyError;
-            } catch (InterruptedException ex) { }
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
         }else
             new waitResponseThreadAsync(response).start();
     }

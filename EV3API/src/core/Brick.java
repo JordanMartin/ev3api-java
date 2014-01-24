@@ -12,6 +12,7 @@ public class Brick {
     
     private Communication comm = null;
     public final DirectCommand directCommand;
+    public Command batchCommand;
 
     /**
      *
@@ -29,6 +30,14 @@ public class Brick {
         
         if(c.commandType == CommandType.DirectReply || c.commandType == CommandType.SystemReply)
             ResponseManager.listenForResponse(c.response, true);
+    }
+    
+    public void sendBatchCommand()
+    {
+        if (batchCommand != null) {
+            sendCommand(batchCommand);
+        } else
+            System.err.println("The batch command is not set");
     }
 
     public boolean connect()

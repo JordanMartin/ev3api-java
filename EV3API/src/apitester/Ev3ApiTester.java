@@ -3,6 +3,7 @@ package apitester;
 import core.ArgumentException;
 import core.BluetoothCommunication;
 import core.Brick;
+import core.Command;
 import core.EV3Types.*;
 import java.util.Scanner;
 
@@ -42,10 +43,21 @@ public class Ev3ApiTester {
                 case "q": next = false; break;
                     
                 default:
-                    System.out.println(ev3.directCommand.readTachoCount(InputPort.A));
-                    System.out.println(ev3.directCommand.readTachoCount(InputPort.D));
-                    System.out.println(ev3.directCommand.readUltrasonic(InputPort.Four));
-                    System.out.println(ev3.directCommand.readGyroscope(InputPort.Two));
+//                    System.out.println(ev3.directCommand.readTachoCount(InputPort.A));
+//                    System.out.println(ev3.directCommand.readTachoCount(InputPort.D));
+//                    System.out.println(ev3.directCommand.readUltrasonic(InputPort.Four));
+//                    System.out.println(ev3.directCommand.readGyroscope(InputPort.Two));
+                    ev3.batchCommand = new Command(CommandType.DirectReply, 13, 0);
+                    ev3.batchCommand.readRaw(InputPort.A, MotorMode.Degrees.ordinal(), 0);
+                    ev3.batchCommand.readRaw(InputPort.D, MotorMode.Degrees.ordinal(), 4);
+                    ev3.batchCommand.readRaw(InputPort.Four, 0, 8);
+                    ev3.batchCommand.readRaw(InputPort.Two, 0, 12);
+                    ev3.sendBatchCommand();
+                    
+                    for(byte b : ev3.batchCommand.response.getData())
+                        System.out.print((b & 0xff) + " ");
+                    
+                    System.out.println();
             }
         }
 
