@@ -95,7 +95,7 @@ public class BluetoothCommunication extends Communication
         {
             boolean error = false;
             
-            do{
+            do{                
                 
                 try {
                     if (serialPort.getInputBufferBytesCount() > 0) {

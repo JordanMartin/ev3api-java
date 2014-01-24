@@ -89,6 +89,7 @@ public class EV3Types
         Sound_Service(0x9404),
         
         InputDevice_GetTypeMode(0x9905),
+        InputDevice_SetupI2C(0x9909),
         InputDevice_GetDeviceName(0x9915),
         InputDevice_GetModeName(0x9916),
         InputDevice_ReadyPct(0x991b),
@@ -108,6 +109,7 @@ public class EV3Types
         OutputSpeed(0xa5),
         OutputStart(0xa6),
         OutputPolarity(0xa7),
+        OutputWaitReady(0xaa),
         OutputStepPower(0xac),
         OutputTimePower(0xad),
         OutputStepSpeed(0xae),

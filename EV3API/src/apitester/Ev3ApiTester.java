@@ -19,19 +19,20 @@ public class Ev3ApiTester {
         
         Scanner s = new Scanner(System.in);
         
-        boolean next = true;
+        boolean next = true;        
         
-        
-        while(next){            
+        while(next)
+        {          
             
             switch(s.nextLine().toLowerCase())
             {
                 case "c":
                     ev3.directCommand.resetMotorCount(OutputPort.All);
+                    ev3.directCommand.resetGyroscope(InputPort.Two);
                     break;
                     
                 case "m":
-                    ev3.directCommand.stepMotorSync(OutputPort.A, OutputPort.D, 100, 360, true);
+                    ev3.directCommand.stepMotorSync(OutputPort.A, OutputPort.D, 50, 720, true);
                     break;
                     
                 case "s":
@@ -41,15 +42,14 @@ public class Ev3ApiTester {
                 case "q": next = false; break;
                     
                 default:
-                    ev3.directCommand.readTachoCount(InputPort.A);
-                    ev3.directCommand.readTachoCount(InputPort.D);
+//                    ev3.directCommand.readTachoCount(InputPort.A);
+//                    ev3.directCommand.readTachoCount(InputPort.D);
+//                    ev3.directCommand.readUltrasonic(InputPort.Four);
+                    ev3.directCommand.readGyroscope(InputPort.Two);
+                    ev3.directCommand.readCompass(InputPort.One);
             }
         }
-        
-        
-//        ev3.directCommand.readUltrasonic(InputPort.Four);
-//        ev3.directCommand.readGyroscope(InputPort.Two);
-        
+
         ev3.directCommand.stopMotor(OutputPort.All, false);
         ev3.disconnect();
     }

@@ -13,8 +13,7 @@ import java.util.Map;
 public class ResponseManager 
 {    
     private static int nextSequence = 0x0001;
-    private static final Map<Integer, Response> responses = new HashMap<>();
-    
+    private static final Map<Integer, Response> responses = new HashMap<>();    
     
     private static int getSequenceNumber() {
         if(nextSequence == 0xFFFF)
