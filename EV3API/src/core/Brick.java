@@ -1,5 +1,6 @@
 package core;
 
+
 import core.EV3Types.*;
 
 
@@ -30,10 +31,20 @@ public class Brick {
             ResponseManager.waitForResponse(c.response);
     }
 
-    public void connect()
+    public boolean connect()
     {
-        comm.open();
-    }   
+        if(comm.open()) {
+            this.comm.addDataReceivedListener(new DataReceivedListener() {
+
+                @Override
+                public void dataReceived(byte[] data) {
+                    ResponseManager.handleResponse(data);
+                }
+            });
+            return true;
+        }
+        return false;
+    }
     
     public void disconnect()
     {
