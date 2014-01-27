@@ -42,3 +42,4 @@ Links
 =====
  - C# API : http://legoev3.codeplex.com/
  - Source code of the brick  :  https://github.com/mindboards/ev3sources
+ - jSSC library : https://code.google.com/p/java-simple-serial-connector/
