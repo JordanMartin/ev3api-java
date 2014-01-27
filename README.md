@@ -1,7 +1,8 @@
 ev3api-java
 ===========
 
-This Java API allow to you control an EV3 over a serial port (which is emulated with bluetooth).
+This Java API allow to you control an EV3 over a serial port (which is emulated with bluetooth). It use the Java Simple Serial Connector (jSSC) library to access the serial port. It is compatible with Windows, Linux and Mac.
+
 This API was written with the help of the microsoft API (in C#) and the source code of the brick (see links bellow)
 
 
