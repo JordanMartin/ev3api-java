@@ -4,7 +4,7 @@ package core;
 import java.util.Arrays;
 
 /**
- *
+ * This class allow the convertion bytes received into a number
  * @author Jordan
  */
 public class SensorDataConverter

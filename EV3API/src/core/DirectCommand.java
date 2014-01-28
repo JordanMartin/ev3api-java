@@ -3,7 +3,7 @@ package core;
 import core.EV3Types.*;
 
 /**
- *
+ * This class contains method which can be called directly to control the ev3
  * @author Jordan
  */
 public class DirectCommand {

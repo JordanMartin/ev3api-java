@@ -10,16 +10,41 @@ import java.nio.charset.Charset;
  */
 public class Command
 {
+
     private ByteBuffer data;
+    /**
+     * The response object
+     */
     public Response response;
+    /**
+     * The type of the response {@link core.EV3Types.CommandType}
+     */
     final CommandType commandType;
-    
+
+    /**
+     * Create a new command with the specified type
+     *
+     * @param commandType the command type
+     *
+     * @throws ArgumentException
+     */
     public Command(CommandType commandType) throws ArgumentException
     {
         this.commandType = commandType;
         initialize(commandType, 0, 0);
     }
 
+    /**
+     * Create a new command with the specified command type The globalSize is
+     * used with the Direct_Reply or System_Reply command type to define the
+     * length of the returned response
+     *
+     * @param commandType The type of the command
+     * @param globalSize  The length of the response
+     * @param localSize   ???
+     *
+     * @throws ArgumentException
+     */
     public Command(CommandType commandType, int globalSize, int localSize) throws ArgumentException
     {
         this.commandType = commandType;
@@ -31,10 +56,11 @@ public class Command
      * on the EV3 brick
      *
      * @param commandType The type of the command to start
-     * @param globalSize The size of the global buffer in bytes (maximum of 1024
-     * bytes)
-     * @param localSize The size of the local buffer in bytes (maximum of 64
-     * bytes)
+     * @param globalSize  The size of the global buffer in bytes (maximum of
+     *                    1024 bytes)
+     * @param localSize   The size of the local buffer in bytes (maximum of 64
+     *                    bytes)
+     *
      * @throws core.ArgumentException
      */
     private void initialize(CommandType commandType, int globalSize, int localSize) throws ArgumentException
@@ -48,18 +74,18 @@ public class Command
         response = ResponseManager.createResponse();
 
         // Two first byte for the command length (gets filled in later)
-        data.putShort((short) 0);
+        data.putShort((short)0);
 
         // Two byte for the request identification
-        data.putShort((short) response.sequence);
+        data.putShort((short)response.sequence);
 
         // One byte for the type of command
-        data.put((byte) commandType.get());
+        data.put((byte)commandType.get());
 
         if (commandType == CommandType.DirectReply || commandType == CommandType.DirectNoReply) {
             // 2 bytes (llllllgg gggggggg)
-            data.put((byte) globalSize); // lower bits of globalSize
-            data.put((byte) (byte) ((localSize << 2) | (globalSize >> 8) & 0x03)); // upper bits of globalSize + localSize
+            data.put((byte)globalSize); // lower bits of globalSize
+            data.put((byte)(byte)((localSize << 2) | (globalSize >> 8) & 0x03)); // upper bits of globalSize + localSize
         }
     }
 
@@ -71,11 +97,11 @@ public class Command
     private void addOpcode(Opcode opcode)
     {
         if (opcode.get() <= 255)
-            data.put((byte) opcode.get());
+            data.put((byte)opcode.get());
         else if (opcode.get() <= 65535)
-            data.putShort((short) opcode.get());
+            data.putShort((short)opcode.get());
         else
-            data.putInt((int) opcode.get());
+            data.putInt((int)opcode.get());
     }
 
     /**
@@ -86,11 +112,11 @@ public class Command
     private void addOpcode(SystemOpcode opcode)
     {
         if (opcode.get() <= 255)
-            data.put((byte) opcode.get());
+            data.put((byte)opcode.get());
         else if (opcode.get() <= 65535)
-            data.putShort((short) opcode.get());
+            data.putShort((short)opcode.get());
         else
-            data.putInt((int) opcode.get());
+            data.putInt((int)opcode.get());
     }
 
     /**
@@ -100,7 +126,7 @@ public class Command
      */
     private void addParameter(String parameter)
     {
-        data.put((byte) ArgumentSize.String.get());
+        data.put((byte)ArgumentSize.String.get());
 
         byte[] stringBytes = parameter.getBytes(Charset.defaultCharset());
 
@@ -108,7 +134,7 @@ public class Command
             data.put(b);
 
         // End of string
-        data.put((byte) 0);
+        data.put((byte)0);
     }
 
     /**
@@ -119,7 +145,7 @@ public class Command
      */
     private void addParameter(int parameter)
     {
-        data.put((byte) ArgumentSize.Int.get());
+        data.put((byte)ArgumentSize.Int.get());
         data.putInt(parameter);
     }
 
@@ -131,7 +157,7 @@ public class Command
      */
     private void addParameter(byte parameter)
     {
-        data.put((byte) ArgumentSize.Byte.get());
+        data.put((byte)ArgumentSize.Byte.get());
         data.put(parameter);
     }
 
@@ -143,7 +169,7 @@ public class Command
      */
     private void addParameter(short parameter)
     {
-        data.put((byte) ArgumentSize.Short.get());
+        data.put((byte)ArgumentSize.Short.get());
         data.putShort(parameter);
     }
 
@@ -190,81 +216,90 @@ public class Command
     {
         byte[] bytes = parameter.getBytes(Charset.defaultCharset());
         data.put(bytes);
-        data.put((byte) 0);
+        data.put((byte)0);
     }
 
-    
+    /**
+     * This function is used to specified the index where the response will be
+     *
+     * @param index the index
+     */
     private void addGlobalIndex(byte index)
     {
         // 0xe1 = global index, long format, 1 byte
-        data.put((byte) (0xe1));
+        data.put((byte)(0xe1));
         data.put(index);
     }
-    
+
     /**
      * Concat the ports in a byte
+     *
      * @param ports
-     * @return 
-     * @throws core.ArgumentException 
+     *
+     * @return
+     *
+     * @throws core.ArgumentException
      */
     public static byte motorPortsToByte(OutputPort[] ports) throws ArgumentException
     {
-        if(ports.length == 0)
+        if (ports.length == 0)
             throw new ArgumentException("No ports has been specified", "ports");
-        
+
         byte motorPorts = 0;
-        
+
         // Append all motors 
-        for(OutputPort port : ports)
+        for (OutputPort port : ports)
             motorPorts |= port.get();
-        
+
         return motorPorts;
     }
 
-    
     /**
      * Add to the message the command : turn motor at the specified power
      *
      * @param ports Ports to define the power
      * @param power Power of the motor between -100 and 100%
+     *
      * @throws core.ArgumentException
      */
     public void turnMotorAtPower(OutputPort[] ports, int power) throws ArgumentException
     {
         if (power < -100 || power > 100)
             throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
-        
+
         addOpcode(Opcode.OutputPower);
-        addParameter((byte) 0); // layer
+        addParameter((byte)0); // layer
         addParameter(motorPortsToByte(ports));	// ports
-        addParameter((byte) power);	// poweraddOpcode(Opcode.OutputPower);
+        addParameter((byte)power);	// poweraddOpcode(Opcode.OutputPower);
     }
-    
+
     /**
      * Add to the message the command : turn motor at the specified power during
      * the specified times
      *
-     * @param port A specific port
+     * @param port  A specific port
      * @param power The power at which to turn the motor (-100% to 100%).
-     * @param ms Number of milliseconds to run at constant power.
+     * @param ms    Number of milliseconds to run at constant power.
      * @param brake Apply brake to motor at end of routine.
+     *
      * @throws ArgumentException
      */
     public void turnMotorAtPowerForTime(OutputPort[] port, int power, int ms, boolean brake) throws ArgumentException
     {
         turnMotorAtPowerForTime(port, power, 0, ms, 0, brake);
     }
-    
+
     /**
      * Turn the motor connected to the specified port or ports at the specified
      * power for the specified times.
      *
-     * @param ports A specific port or Ports.All.
-     * @param power The power at which to turn the motor (-100% to 100%).
-     * @param msRampUp Number of milliseconds to get up to power.
+     * @param ports      A specific port or Ports.All.
+     * @param power      The power at which to turn the motor (-100% to 100%).
+     * @param msRampUp   Number of milliseconds to get up to power.
      * @param msConstant Number of milliseconds to run at constant power.
      * @param msRampDown Number of milliseconds to power down to a stop.
-     * @param brake Apply brake to motor at end of routine.
+     * @param brake      Apply brake to motor at end of routine.
+     *
      * @throws ArgumentException
      */
     public void turnMotorAtPowerForTime(OutputPort[] ports, int power, int msRampUp, int msConstant, int msRampDown, boolean brake) throws ArgumentException
@@ -275,11 +310,11 @@ public class Command
         addOpcode(Opcode.OutputTimePower);
         addParameter((byte)0); //layer
         addParameter(motorPortsToByte(ports));
-        addParameter((byte) power);
+        addParameter((byte)power);
         addParameter(EndianConverter.swapToInt(msRampUp));
         addParameter(EndianConverter.swapToInt(msConstant));
         addParameter(EndianConverter.swapToInt(msRampDown));
-        addParameter((byte) (brake ? 1 : 0)); // brake (0=coast, 1 = brake)
+        addParameter((byte)(brake ? 1 : 0)); // brake (0=coast, 1 = brake)
     }
 
     /**
@@ -290,6 +325,7 @@ public class Command
      * @param power The power at which to turn the motor (-100% to 100%).
      * @param steps The number of steps to turn the motor.
      * @param brake Apply brake to motor at end of routine.
+     *
      * @throws ArgumentException
      */
     public void stepMotorAtPower(OutputPort[] ports, int power, int steps, boolean brake) throws ArgumentException
@@ -301,69 +337,86 @@ public class Command
      * Step the motor connected to the specified port or ports at the specified
      * power for the specified number of steps.
      *
-     * @param ports A specific port or Ports.All.
-     * @param power The power at which to turn the motor (-100% to 100%).
+     * @param ports         A specific port or Ports.All.
+     * @param power         The power at which to turn the motor (-100% to
+     *                      100%).
      * @param rampUpSteps
      * @param constantSteps The number of steps to turn the motor.
      * @param rampDownSteps
-     * @param brake Apply brake to motor at end of routine.
+     * @param brake         Apply brake to motor at end of routine.
+     *
      * @throws ArgumentException
      */
     public void stepMotorAtPower(OutputPort[] ports, int power, int rampUpSteps, int constantSteps, int rampDownSteps, boolean brake) throws ArgumentException
     {
         if (power < -100 || power > 100)
             throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
-        
+
         addOpcode(Opcode.OutputStepPower);
-        addParameter((byte) 0); //layer
+        addParameter((byte)0); //layer
         addParameter(motorPortsToByte(ports));
-        addParameter((byte) power);
+        addParameter((byte)power);
         addParameter(EndianConverter.swapToShort((short)rampUpSteps));
         addParameter(EndianConverter.swapToShort((short)constantSteps));
         addParameter(EndianConverter.swapToShort((short)rampDownSteps));
-        addParameter((byte) (brake ? 1 : 0)); // brake (0=coast, 1 = brake)
+        addParameter((byte)(brake ? 1 : 0)); // brake (0=coast, 1 = brake)
     }
-    
+
+    /**
+     * Synchronize the rotation of two motor during x degrees
+     *
+     * @param port1 The first motor to synchronise
+     * @param port2 The second motor to synchronize
+     * @param power The power to turn the motor (-100 to 100%)
+     * @param step  The step to turn in degree
+     * @param brake if true the rotation is stopped by applying power else the
+     *              motor just stop to power up.
+     *
+     * @throws ArgumentException
+     */
     public void stepMotorSync(OutputPort port1, OutputPort port2, int power, int step, boolean brake) throws ArgumentException
     {
         if (power < -100 || power > 100)
             throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
-        
+
         addOpcode(Opcode.OutputStepSync);
-        addParameter((byte) 0);
-        addParameter((byte) (port1.get() | port2.get()));
-        addParameter((byte) power);
-        addParameter((short) 0);
+        addParameter((byte)0);
+        addParameter((byte)(port1.get() | port2.get()));
+        addParameter((byte)power);
+        addParameter((short)0);
         addParameter(EndianConverter.swapToInt(step));
-        addParameter((byte) (brake ? 1 : 0)); // brake (0=coast, 1 = brake) 
+        addParameter((byte)(brake ? 1 : 0)); // brake (0=coast, 1 = brake) 
     }
-    
+
     /**
      * Wait for the output ready (wait for rotation complemetion)
+     *
      * @param ports
-     * @throws ArgumentException 
+     *
+     * @throws ArgumentException
      */
     public void waitOutputReady(OutputPort[] ports) throws ArgumentException
     {
         addOpcode(Opcode.OutputWaitReady);
-        addParameter((byte) 0);        
+        addParameter((byte)0);
         addParameter(motorPortsToByte(ports));
     }
-    
+
     /**
      * Add to the message the command : Stop motor
      *
      * @param ports Port to define the power
      * @param brake if true the rotation is stopped by applying power else the
-     * motor just stop to power up.
+     *              motor just stop to power up.
+     *
      * @throws core.ArgumentException
      */
     public void stopMotor(OutputPort[] ports, boolean brake) throws ArgumentException
     {
         addOpcode(Opcode.OutputStop);
-        addParameter((byte) 0); // layer
+        addParameter((byte)0); // layer
         addParameter(motorPortsToByte(ports)); // ports
-        addParameter((byte) (brake ? 1 : 0));
+        addParameter((byte)(brake ? 1 : 0));
     }
 
     /**
@@ -372,45 +425,52 @@ public class Command
      * turnMotorAtSpeed(...). Else the parameters are the previous known
      *
      * @param ports
+     *
      * @throws core.ArgumentException
      */
     public void startMotor(OutputPort[] ports) throws ArgumentException
     {
         addOpcode(Opcode.OutputStart);
-        addParameter((byte) 0); // layer
+        addParameter((byte)0); // layer
         addParameter(motorPortsToByte(ports)); // ports
     }
- 
+
     /**
-     * Reset the tacho count value of the motor(s)
-     * @param ports 
-     * @throws core.ArgumentException 
+     * Reset the tacho counter value of the motor(s)
+     *
+     * @param ports
+     *
+     * @throws core.ArgumentException
      */
     public void resetTachoMotor(OutputPort[] ports) throws ArgumentException
     {
         addOpcode(Opcode.OutputClearCount);
-        addParameter((byte) 0); // layer
+        addParameter((byte)0); // layer
         addParameter(motorPortsToByte(ports)); // ports
     }
-    
+
     /**
-     * Reset the tacho value of motor (value used by the motor for step rotation)
-     * @param ports 
-     * @throws core.ArgumentException 
+     * Reset the internal tacho counter value of motor (this value is only used
+     * by the motor to calcultate the steps rotation)
+     *
+     * @param ports
+     *
+     * @throws core.ArgumentException
      */
     public void resetInternalTachoMotor(OutputPort[] ports) throws ArgumentException
     {
         addOpcode(Opcode.OutputReset);
-        addParameter((byte) 0); // layer
+        addParameter((byte)0); // layer
         addParameter(motorPortsToByte(ports)); // ports
     }
 
     /**
      * Add the message the command : Read raw value of the specified port
      *
-     * @param port The port to query
-     * @param mode The mode to query the value as
+     * @param port  The port to query
+     * @param mode  The mode to query the value as
      * @param index The index in the global buffer to hold the return value
+     *
      * @throws core.ArgumentException
      */
     public void readRaw(InputPort port, int mode, int index) throws ArgumentException
@@ -419,131 +479,137 @@ public class Command
             throw new ArgumentException("Index cannot be greater than 1024", "index");
 
         addOpcode(Opcode.InputDevice_ReadyRaw);
-        addParameter((byte) 0);          // layer
-        addParameter((byte) port.get()); // port
-        addParameter((byte) 0);          // type
-        addParameter((byte) mode);	 // mode
-        addParameter((byte) 1);		 // # values
-        addGlobalIndex((byte) index);	 // index for return data
+        addParameter((byte)0);          // layer
+        addParameter((byte)port.get()); // port
+        addParameter((byte)0);          // type
+        addParameter((byte)mode);	 // mode
+        addParameter((byte)1);		 // # values
+        addGlobalIndex((byte)index);	 // index for return data
     }
-    
+
     /**
-     * Append the Ready SI command to an existing Command object
+     * Append the Read SI command to an existing Command object
      *
-     * @param port The port to query
-     * @param mode The mode to read the data as
+     * @param port  The port to query
+     * @param mode  The mode to read the data as
      * @param index The index to hold the return value in the global buffer
+     *
      * @throws ArgumentException
      */
     public void readSI(InputPort port, int mode, int index) throws ArgumentException
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
-        
+
         addOpcode(Opcode.InputDevice_ReadySI);
-        addParameter((byte) 0); //layer
-        addParameter((byte) port.get()); // port
-        addParameter((byte) 0); // type (0 = don't change)
-        addParameter((byte) mode); // Mode
-        addParameter((byte) 1); // Number of values retourned
-        addGlobalIndex((byte) index); // index for return data
+        addParameter((byte)0); //layer
+        addParameter((byte)port.get()); // port
+        addParameter((byte)0); // type (0 = don't change)
+        addParameter((byte)mode); // Mode
+        addParameter((byte)1); // Number of values retourned
+        addGlobalIndex((byte)index); // index for return data
     }
 
     /**
-     * Append the Ready Percent command to an existing Command object
+     * Append the Read Percent command to an existing Command object
      *
-     * @param port The port to query
-     * @param mode The mode to query the value as
+     * @param port  The port to query
+     * @param mode  The mode to query the value as
      * @param index The index in the global buffer to hold the return value
+     *
      * @throws ArgumentException
      */
     public void readPercent(InputPort port, int mode, int index) throws ArgumentException
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
-        
+
         addOpcode(Opcode.InputDevice_ReadyPct);
-        addParameter((byte) 0); // layer
-        addParameter((byte) port.get()); // port
+        addParameter((byte)0); // layer
+        addParameter((byte)port.get()); // port
         addParameter(0x00); // type
-        addParameter((byte) mode); // mode
-        addParameter((byte) 1); // Number of values retourned
-        addGlobalIndex((byte) index); // index for return data
+        addParameter((byte)mode); // mode
+        addParameter((byte)1); // Number of values retourned
+        addGlobalIndex((byte)index); // index for return data
     }
-    
+
     /**
      * Append the Get Type/Mode command to an existing Command object
      *
-     * @param port The port to query
+     * @param port      The port to query
      * @param typeIndex The index to hold the Type value in the global buffer
      * @param modeIndex The index to hold the Type value in the global buffer
+     *
      * @throws core.ArgumentException
      */
     public void getTypeMode(InputPort port, int typeIndex, int modeIndex) throws ArgumentException
     {
         if (typeIndex > 1024)
             throw new ArgumentException("Index for Type cannot be greater than 1024", "typeIndex");
-        
+
         if (modeIndex > 1024)
             throw new ArgumentException("Index for Mode cannot be greater than 1024", "modeIndex");
 
         addOpcode(Opcode.InputDevice_GetTypeMode);
-        addParameter((byte) 0);	// layer
-        addParameter((byte) port.get());
-        addGlobalIndex((byte) typeIndex); // index for type
-        addGlobalIndex((byte) modeIndex); // index for mode
+        addParameter((byte)0);	// layer
+        addParameter((byte)port.get());
+        addGlobalIndex((byte)typeIndex); // index for type
+        addGlobalIndex((byte)modeIndex); // index for mode
     }
 
     /**
      * Append the Get Device Name command to an existing Command object
      *
-     * @param port The port to query
+     * @param port       The port to query
      * @param bufferSize Size of the buffer to hold the returned data
-     * @param index Index to the position of the returned data in the global
-     * buffer
+     * @param index      Index to the position of the returned data in the
+     *                   global buffer
+     *
      * @throws ArgumentException
      */
     public void getDeviceName(InputPort port, int bufferSize, int index) throws ArgumentException
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
-        
+
         addOpcode(Opcode.InputDevice_GetDeviceName);
-        addParameter((byte) 0);
-        addParameter((byte) port.get());
-        addParameter((byte) bufferSize);
-        addGlobalIndex((byte) index);
+        addParameter((byte)0);
+        addParameter((byte)port.get());
+        addParameter((byte)bufferSize);
+        addGlobalIndex((byte)index);
     }
 
     /**
      * Append the Get Mode Name command to an existing Command object
      *
-     * @param port The port to query
-     * @param mode The mode of the name to get
+     * @param port       The port to query
+     * @param mode       The mode of the name to get
      * @param bufferSize Size of the buffer to hold the returned data
-     * @param index Index to the position of the returned data in the global
-     * buffer
+     * @param index      Index to the position of the returned data in the
+     *                   global buffer
+     *
      * @throws ArgumentException
      */
     public void getModeName(InputPort port, int mode, int bufferSize, int index) throws ArgumentException
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
-        
+
         addOpcode(Opcode.InputDevice_GetModeName);
-        addParameter((byte) 0);
-        addParameter((byte) port.get());
-        addParameter((byte) mode);
-        addParameter((byte) bufferSize);
-        addGlobalIndex((byte) index);
+        addParameter((byte)0);
+        addParameter((byte)port.get());
+        addParameter((byte)mode);
+        addParameter((byte)bufferSize);
+        addGlobalIndex((byte)index);
     }
 
     /**
      * Append the Play Tone command to an existing Command object
      *
-     * @param volume Volume to play the tone (0-100)
+     * @param volume    Volume to play the tone (0-100)
      * @param frequency Frequency of tone in Hertz
-     * @param duration Duration of the tone in milliseconds
+     * @param duration  Duration of the tone in milliseconds
+     *
      * @throws ArgumentException
      */
     public void playTone(int volume, int frequency, int duration) throws ArgumentException
@@ -552,7 +618,7 @@ public class Command
             throw new ArgumentException("Volume must be between 0 and 100", "volume");
 
         addOpcode(Opcode.Sound_Tone);
-        addParameter((byte) volume); // volume
+        addParameter((byte)volume); // volume
         addParameter(EndianConverter.swapToShort((short)(frequency)));
         addParameter(EndianConverter.swapToShort((short)duration)); // duration (ms)
     }

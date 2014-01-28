@@ -1,23 +1,26 @@
 package core;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
 /**
- *
+ * This class represents a bluetooth communication
  * @author Jordan
  */
 public class BluetoothCommunication extends Communication
 {
 
     SerialPort serialPort;
-    
-    
-    
+
+    /**
+     * Create a new bluetooth communication at the specified com port
+     *
+     * @param commPort String of serial port. You must pair the ev3 before and
+     *                 look at the name of the output com port to the ev3 (Eg.
+     *                 COM3, COM4...)
+     */
     public BluetoothCommunication(String commPort)
     {
         serialPort = new SerialPort(commPort);
@@ -103,7 +106,11 @@ public class BluetoothCommunication extends Communication
         }
     }
     
-    
+    /**
+     * This method is trigger when data is available on the serial port and fire 
+     * 
+     * @param data the data received
+     */
     private void dataReceived(byte[] data)
     {
         for (byte b : data)
@@ -114,7 +121,8 @@ public class BluetoothCommunication extends Communication
 
     
     /**
-     * 
+     * @deprecated This is a bad method to wait data
+     * This class make an active wait on the serial port
      */
     class DataReaderAsync implements Runnable
     {

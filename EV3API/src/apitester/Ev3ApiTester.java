@@ -8,7 +8,7 @@ import core.EV3Types.*;
 import java.util.Scanner;
 
 /**
- *
+ * Test the api
  * @author Jordan
  */
 public class Ev3ApiTester {
@@ -63,6 +63,5 @@ public class Ev3ApiTester {
 
         ev3.directCommand.stopMotor(OutputPort.All, false);
         ev3.disconnect();
-    }
-    
+    }    
 }

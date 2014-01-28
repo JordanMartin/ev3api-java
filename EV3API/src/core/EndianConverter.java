@@ -2,15 +2,17 @@
 package core;
 
 /**
- *
+ * This class allow the convertion of Endian for number
  * @author Jordan
  */
 public class EndianConverter
 {
-    public static void main(String args[]){
-        System.out.println(EndianConverter.getShort(new byte[]{(byte)0x61, (byte)0x0, (byte)0, (byte) 0}));
-    }
 
+    /**
+     * Convert the int number into it's opposite endian representation
+     * @param number number to convert
+     * @return the int converted number
+     */
     public static int swapToInt(int number)
     {
         return ((number >> 24) & 0xff)
@@ -19,11 +21,21 @@ public class EndianConverter
             + (((number) & 0xff) << 24);
     }
 
+    /**
+     * Convert the int number into it's opposite endian representation
+     * @param number number to convert
+     * @return the short converted number
+     */
     public static short swapToShort(short number)
     {
         return (short) (((number >> 8) & 0xff) + (((number) & 0xff) << 8));
     }
 
+    /**
+     * Convert the four first bytes into it's opposite int endian representation
+     * @param bytes Byte which composed the number bytes[0] is the MSB
+     * @return the int converted number
+     */
     public static int swapToInt(byte[] bytes)
     {
         if(bytes.length < 4)
@@ -35,6 +47,11 @@ public class EndianConverter
             + ((bytes[3] & 0xff) << 24);        
     }
 
+    /**
+     * Convert the two first bytes into it's opposite short endian representation
+     * @param bytes Byte which composed the number bytes[0] is the MSB
+     * @return the short converted number
+     */
     public static short swapToShort(byte[] bytes)
     {
         if(bytes.length < 2)
@@ -70,6 +87,5 @@ public class EndianConverter
             + ((bytes[2] & 0xff) << 8)
             + ((bytes[1] & 0xff) << 16)
             + ((bytes[0] & 0xff) << 24); 
-    }
-    
+    }    
 }

@@ -3,7 +3,7 @@ package core;
 import core.EV3Types.*;
 
 /**
- *
+ * This class represent a response 
  * @author Jordan
  */
 public class Response {
