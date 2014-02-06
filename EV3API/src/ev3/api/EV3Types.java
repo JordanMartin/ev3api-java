@@ -1,4 +1,4 @@
-package core;
+package ev3.api;
 
 /**
  * Constante for EV3 communication

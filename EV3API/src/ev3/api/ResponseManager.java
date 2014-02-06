@@ -1,8 +1,8 @@
-package core;
+package ev3.api;
 
-import core.EV3Types.ReplyType;
-import core.EV3Types.SystemOpcode;
-import core.EV3Types.SystemReplyStatus;
+import ev3.api.EV3Types.ReplyType;
+import ev3.api.EV3Types.SystemOpcode;
+import ev3.api.EV3Types.SystemReplyStatus;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

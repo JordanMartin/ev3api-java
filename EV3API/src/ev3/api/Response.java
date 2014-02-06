@@ -1,6 +1,6 @@
-package core;
+package ev3.api;
 
-import core.EV3Types.*;
+import ev3.api.EV3Types.*;
 
 /**
  * This class represent a response 
@@ -20,6 +20,10 @@ public class Response {
         event = new ManualResetEvent(false);
     }
     
+    /**
+     * Return data of the response
+     * @return 
+     */
     public byte[] getData(){
         return data;
     }

@@ -1,6 +1,6 @@
-package core;
+package ev3.api;
 
-import core.EV3Types.*;
+import ev3.api.EV3Types.*;
 
 /**
  * This class contains method which can be called directly to control the ev3
@@ -59,7 +59,6 @@ public class DirectCommand {
         brick.sendCommand(c);
     }
     
-    
     public void stepMotorAtPower(OutputPort port, int power, int steps, boolean brake) throws ArgumentException {
         stepMotorAtPower(new OutputPort[]{port}, power, 0, steps, 0, brake);
     }
@@ -82,9 +81,6 @@ public class DirectCommand {
     
     public void stepMotorSync(OutputPort port1, OutputPort port2, int power, int step, boolean brake) throws ArgumentException
     {    
-        if(!isMotorPort(port1) || !isMotorPort(port2))
-            throw new ArgumentException("The specified port is not a motor port", "port");
-        
         Command c = new Command(CommandType.DirectNoReply);
         c.resetInternalTachoMotor(new OutputPort[]{port1, port2});
         c.stepMotorSync(port1, port2, power, step, brake);
@@ -103,44 +99,33 @@ public class DirectCommand {
         brick.sendCommand(c); 
     }
     
-    
     public double readUltrasonic(InputPort port) throws ArgumentException, InterruptedException
     {
-        if(!isSensorPort(port))
-            throw new ArgumentException("The specified port is not a sensor port", "port");
-        
         int responseSize = 6;
         int index = 0;
         
         Command c = new Command(CommandType.DirectReply, responseSize, 0);
         c.getTypeMode(port, index, index+1);
-        c.readRaw(port, UltrasonicMode.Centimeters.ordinal(), index+2);
+        c.readUltrasonic(port, UltrasonicMode.Centimeters, index+2);
         brick.sendCommand(c);
         
-        return SensorDataConverter.toInt(c.response.data, 2, 5) / 10.0;
+        return SensorDataConverter.getValue(c.response.data, 0, 5);
     }
     
     public int readGyroscope(InputPort port) throws ArgumentException
     {
-        if(!isSensorPort(port))
-            throw new ArgumentException("The specified port is not a sensor port", "port");
-        
-        int responseSize = 6;
+        int responseSize = 4;
         int index = 0;
         
         Command c = new Command(CommandType.DirectReply, responseSize, 0);
-        c.getTypeMode(port, index, index+1);
-        c.readRaw(port, GyroscopeMode.Angle.ordinal(), index+2);
+        c.readGyroscope(port, GyroscopeMode.Angle, index);
         brick.sendCommand(c);     
         
-        return SensorDataConverter.toInt(c.response.data, 2, 5);
+        return SensorDataConverter.toInt(c.response.data, 0, 3);
     }
     
     public int readCompass(InputPort port) throws ArgumentException
     {
-        if(!isSensorPort(port))
-            throw new ArgumentException("The specified port is not a sensor port", "port");
-        
         int responseSize = 3;
         int index = 0;
         
@@ -154,23 +139,20 @@ public class DirectCommand {
     
     public int readTachoCount(InputPort port) throws ArgumentException
     {
-        if(!isMotorPort(port))
-            throw new ArgumentException("The specified port is not a motor port", "port");
-        
-        int responseSize = 6;
+        int responseSize = 4;
         int index = 0;
         
         Command c = new Command(CommandType.DirectReply, responseSize, 0);
-        c.getTypeMode(port, index, index+1);
-        c.readRaw(port, MotorMode.Degrees.ordinal(), index + 2);
+        c.readTachoCount(port, MotorMode.Degrees, index);
         brick.sendCommand(c);
         
-        return SensorDataConverter.toInt(c.response.data, 2, 5);
+        return SensorDataConverter.toInt(c.response.data, 0, 3);
     }
     
     public void resetGyroscope(InputPort port) throws ArgumentException
     {
         Command c = new Command(CommandType.DirectNoReply);
+        // Switch mode to calibrate
         c.readRaw(port, GyroscopeMode.Rate.get(), 0);
         c.readRaw(port, GyroscopeMode.Angle.get(), 0);
         brick.sendCommand(c); 
@@ -187,7 +169,6 @@ public class DirectCommand {
         c.resetTachoMotor(ports);
         brick.sendCommand(c);
     }
-    
     
     public void getTypeMode(InputPort port) throws ArgumentException
     {
@@ -206,18 +187,41 @@ public class DirectCommand {
         brick.sendCommand(c);
     }
     
-    public static boolean isMotorPort(InputPort port){
-        return (port == InputPort.A || port == InputPort.B ||
-            port == InputPort.C || port == InputPort.D);
-    }
-    
-    public static boolean isMotorPort(OutputPort port){
-        return (port == OutputPort.A || port == OutputPort.B ||
-            port == OutputPort.C || port == OutputPort.D || port == OutputPort.All);
-    }
-    
-    public static boolean isSensorPort(InputPort port){
-        return (port == InputPort.One || port == InputPort.Two ||
-            port == InputPort.Three || port == InputPort.Four);
+
+    public double[] readSensors(InputPort[] ports, int[] modes) throws ArgumentException
+    {
+        if(ports.length != modes.length)
+            return null;
+        
+        int responseSize = ports.length * 6;
+        int index = 0;
+        
+        Command c = new Command(CommandType.DirectReply, responseSize, 0);
+        
+        // Request each sensors
+        for(int i = 0; i < ports.length; i++)
+        {
+            c.getTypeMode(ports[i], index, index+1);
+            c.readRaw(ports[i], modes[i], index+2);
+            index += 6;
+        }
+        
+        index = 0;
+        
+        brick.sendCommand(c);
+        
+        // Fetch values
+        byte[] responseData = c.response.data;
+        
+        index = 0;
+        double[] values = new double[ports.length];
+        
+        for (int i = 0; i < ports.length; i++) 
+        {
+            values[i] = SensorDataConverter.getValue(responseData, index, index+5);
+            index += 6;
+        }
+        
+        return values;
     }
 }

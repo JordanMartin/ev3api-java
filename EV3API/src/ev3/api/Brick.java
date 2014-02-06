@@ -1,6 +1,6 @@
-package core;
+package ev3.api;
 
-import core.EV3Types.*;
+import ev3.api.EV3Types.*;
 
 /**
  *
@@ -29,26 +29,40 @@ public class Brick
      * Send the specified command
      *
      * @param c the command to send
+     * @param waitResponse
      */
-    public void sendCommand(Command c)
+    public void sendCommand(Command c, boolean waitResponse)
     {
         comm.write(c.toBytes());
 
         if (c.commandType == CommandType.DirectReply || c.commandType == CommandType.SystemReply)
-            ResponseManager.listenForResponse(c.response, true);
+            ResponseManager.listenForResponse(c.response, waitResponse);
+    }
+    
+    
+    public void sendCommand(Command c)
+    {
+        sendCommand(c, true);
     }
 
     /**
      * Send the batchCommand Before send this command you must instanciate the
      * attribute batchCommand with a new command and add commands
+     * @param waitResponse
      */
-    public void sendBatchCommand()
+    public void sendBatchCommand(boolean waitResponse)
     {
         if (batchCommand != null)
-            sendCommand(batchCommand);
+            sendCommand(batchCommand, waitResponse);
         else
             System.err.println("The batch command is not set");
     }
+    
+    public void sendBatchCommand()
+    {
+        sendBatchCommand(true);
+    }
+
 
     /**
      * Connect to the ev3

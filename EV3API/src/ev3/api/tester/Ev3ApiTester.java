@@ -1,10 +1,10 @@
-package apitester;
+package ev3.api.tester;
 
-import core.ArgumentException;
-import core.BluetoothCommunication;
-import core.Brick;
-import core.Command;
-import core.EV3Types.*;
+import ev3.api.ArgumentException;
+import ev3.api.BluetoothCommunication;
+import ev3.api.Brick;
+import ev3.api.Command;
+import ev3.api.EV3Types.*;
 import java.util.Scanner;
 
 /**
@@ -15,7 +15,7 @@ public class Ev3ApiTester {
 
     public static void main(String[] args) throws ArgumentException, InterruptedException {
               
-        Brick ev3 = new Brick(new BluetoothCommunication("COM5"));
+        Brick ev3 = new Brick(new BluetoothCommunication("COM3"));
         ev3.connect();
         
         Scanner s = new Scanner(System.in);
@@ -72,10 +72,11 @@ public class Ev3ApiTester {
                     break;
                     
                 default:
-                    System.out.println("Tacho left  : " + ev3.directCommand.readTachoCount(InputPort.A));
-                    System.out.println("Tacho right : " + ev3.directCommand.readTachoCount(InputPort.D));
+//                    System.out.println("Tacho left  : " + ev3.directCommand.readTachoCount(InputPort.A));
+//                    System.out.println("Tacho right : " + ev3.directCommand.readTachoCount(InputPort.D));
+                    System.out.println("Ultrasonic  : " + ev3.directCommand.readUltrasonic(InputPort.One));
                     System.out.println("Ultrasonic  : " + ev3.directCommand.readUltrasonic(InputPort.Four));
-                    System.out.println("      Gyro  : " + ev3.directCommand.readGyroscope(InputPort.Two));
+//                    System.out.println("      Gyro  : " + ev3.directCommand.readGyroscope(InputPort.Two));
 
                     
                     System.out.println();

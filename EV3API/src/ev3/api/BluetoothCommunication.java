@@ -1,4 +1,4 @@
-package core;
+package ev3.api;
 
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
@@ -99,6 +99,7 @@ public class BluetoothCommunication extends Communication
     public boolean write(byte[] data)
     {
         try {
+            debug("out", data);  
             return serialPort.writeBytes(data);
         } catch (SerialPortException e) {
             System.err.println("Error to write bytes : " + e.getMessage());
@@ -113,9 +114,7 @@ public class BluetoothCommunication extends Communication
      */
     private void dataReceived(byte[] data)
     {
-        for (byte b : data)
-            System.out.print((b & 0xff) + " ");
-        System.out.println();
+        debug("in", data);                    
         fireDataReceived(data);
     }
 
@@ -140,10 +139,7 @@ public class BluetoothCommunication extends Communication
                         
 
                         ///////// DEBUG ///////
-//                        System.out.print("in : ");
-//                        for (byte b : data)
-//                            System.out.print((b & 0xff) + " ");
-//                        System.out.println();
+//                        debug("in", data);
                         // \\\\\\\\ DEBUG\\\\\\
                         
                         dataReceived(data);
@@ -164,5 +160,12 @@ public class BluetoothCommunication extends Communication
     {
         super.finalize();
         close();
+    }
+    
+    private void debug(String msg, byte[] data){
+//        System.out.print(msg + " : ");
+//        for (byte b : data)
+//            System.out.print((b & 0xff) + " ");
+//        System.out.println();
     }
 }

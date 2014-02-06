@@ -1,6 +1,6 @@
-package core;
+package ev3.api;
 
-import core.EV3Types.*;
+import ev3.api.EV3Types.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
@@ -61,7 +61,7 @@ public class Command
      * @param localSize   The size of the local buffer in bytes (maximum of 64
      *                    bytes)
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     private void initialize(CommandType commandType, int globalSize, int localSize) throws ArgumentException
     {
@@ -238,7 +238,7 @@ public class Command
      *
      * @return
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     public static byte motorPortsToByte(OutputPort[] ports) throws ArgumentException
     {
@@ -260,7 +260,7 @@ public class Command
      * @param ports Ports to define the power
      * @param power Power of the motor between -100 and 100%
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     public void turnMotorAtPower(OutputPort[] ports, int power) throws ArgumentException
     {
@@ -378,6 +378,9 @@ public class Command
     {
         if (power < -100 || power > 100)
             throw new ArgumentException("Power must be between -100 and 100 inclusive.", "power");
+        
+        if(!isMotorPort(port1) || !isMotorPort(port2))
+            throw new ArgumentException("The specified port is not a motor port", "port");
 
         addOpcode(Opcode.OutputStepSync);
         addParameter((byte)0);
@@ -409,7 +412,7 @@ public class Command
      * @param brake if true the rotation is stopped by applying power else the
      *              motor just stop to power up.
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     public void stopMotor(OutputPort[] ports, boolean brake) throws ArgumentException
     {
@@ -426,7 +429,7 @@ public class Command
      *
      * @param ports
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     public void startMotor(OutputPort[] ports) throws ArgumentException
     {
@@ -440,7 +443,7 @@ public class Command
      *
      * @param ports
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     public void resetTachoMotor(OutputPort[] ports) throws ArgumentException
     {
@@ -455,7 +458,7 @@ public class Command
      *
      * @param ports
      *
-     * @throws core.ArgumentException
+     * @throws ArgumentException
      */
     public void resetInternalTachoMotor(OutputPort[] ports) throws ArgumentException
     {
@@ -470,13 +473,15 @@ public class Command
      * @param port  The port to query
      * @param mode  The mode to query the value as
      * @param index The index in the global buffer to hold the return value
-     *
-     * @throws core.ArgumentException
+     * @throws ev3.api.ArgumentException
      */
     public void readRaw(InputPort port, int mode, int index) throws ArgumentException
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
+        
+        if(!isSensorPort(port) && !isMotorPort(port))
+            throw new ArgumentException("The specified port is not a sensor port", "port");
 
         addOpcode(Opcode.InputDevice_ReadyRaw);
         addParameter((byte)0);          // layer
@@ -500,6 +505,9 @@ public class Command
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
+        
+        if(!isSensorPort(port) && !isMotorPort(port))
+            throw new ArgumentException("The The specified port is not a sensor port", "port");
 
         addOpcode(Opcode.InputDevice_ReadySI);
         addParameter((byte)0); //layer
@@ -523,6 +531,9 @@ public class Command
     {
         if (index > 1024)
             throw new ArgumentException("Index cannot be greater than 1024", "index");
+        
+        if(!isSensorPort(port) && !isMotorPort(port))
+            throw new ArgumentException("The The specified port is not a sensor port", "port");
 
         addOpcode(Opcode.InputDevice_ReadyPct);
         addParameter((byte)0); // layer
@@ -539,8 +550,7 @@ public class Command
      * @param port      The port to query
      * @param typeIndex The index to hold the Type value in the global buffer
      * @param modeIndex The index to hold the Type value in the global buffer
-     *
-     * @throws core.ArgumentException
+     * @throws ev3.api.ArgumentException
      */
     public void getTypeMode(InputPort port, int typeIndex, int modeIndex) throws ArgumentException
     {
@@ -622,6 +632,21 @@ public class Command
         addParameter(EndianConverter.swapToShort((short)(frequency)));
         addParameter(EndianConverter.swapToShort((short)duration)); // duration (ms)
     }
+    
+
+    public void readUltrasonic(InputPort port, UltrasonicMode mode, int responseIndex) throws ArgumentException {
+        readRaw(port, mode.ordinal(), responseIndex);
+    }
+
+    public void readGyroscope(InputPort port, GyroscopeMode mode, int responseIndex) throws ArgumentException {
+       readRaw(port, mode.ordinal(), responseIndex); 
+    }
+    
+    public void readTachoCount(InputPort port, MotorMode mode, int responseIndex) throws ArgumentException {
+        readRaw(port, mode.ordinal(), responseIndex);
+    } 
+    
+    
 
     /**
      * Return all the bytes of the command in byte[] The two first bytes are
@@ -657,5 +682,20 @@ public class Command
 //        for (byte b : bytes)
 //            ret += Integer.toBinaryString((b & 0xff)) + "  ";
         return ret;
+    }
+    
+    public static boolean isMotorPort(InputPort port){
+        return (port == InputPort.A || port == InputPort.B ||
+            port == InputPort.C || port == InputPort.D);
+    }
+    
+    public static boolean isMotorPort(OutputPort port){
+        return (port == OutputPort.A || port == OutputPort.B ||
+            port == OutputPort.C || port == OutputPort.D || port == OutputPort.All);
+    }
+    
+    public static boolean isSensorPort(InputPort port){
+        return (port == InputPort.One || port == InputPort.Two ||
+            port == InputPort.Three || port == InputPort.Four);
     }
 }
