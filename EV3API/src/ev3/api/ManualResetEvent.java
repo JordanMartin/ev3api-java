@@ -2,7 +2,7 @@ package ev3.api;
 
 /**
  *
- * @author Jonathan
+ * @author Jordan Martin & Jonathan Taws
  */
 
 

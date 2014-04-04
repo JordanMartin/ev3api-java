@@ -7,7 +7,7 @@ import jssc.SerialPortException;
 
 /**
  * This class represents a bluetooth communication
- * @author Jordan
+ * @author Jordan Martin & Jonathan Taws
  */
 public class BluetoothCommunication extends Communication
 {
@@ -17,8 +17,8 @@ public class BluetoothCommunication extends Communication
     /**
      * Create a new bluetooth communication at the specified com port
      *
-     * @param commPort String of serial port. You must pair the ev3 before and
-     *                 look at the name of the output com port to the ev3 (Eg.
+     * @param commPort String of serial port. The ev3 must be paired before by
+     *                 looking at the name of the output com port connected to the ev3 (Eg.
      *                 COM3, COM4...)
      */
     public BluetoothCommunication(String commPort)
@@ -49,7 +49,7 @@ public class BluetoothCommunication extends Communication
         
         
         if(serialPort.isOpened()){
-            //new Thread(new DataReaderAsync()).start(); // Active wait (bad)
+            //new Thread(new DataReaderAsync()).start(); // Active wait
             
             try {
                 serialPort.setEventsMask(SerialPort.MASK_RXCHAR); // Listen input data event
@@ -108,7 +108,7 @@ public class BluetoothCommunication extends Communication
     }
     
     /**
-     * This method is trigger when data is available on the serial port and fire 
+     * This method is triggered when the data is available on the serial port, which in turn fires the data
      * 
      * @param data the data received
      */

@@ -1,12 +1,11 @@
-
 package ev3.api;
 
 import java.util.Arrays;
 import ev3.api.EV3Types.*;
 
 /**
- * This class allow the convertion bytes received into a number
- * @author Jordan
+ * This class allows the conversion of the bytes received into a number
+ * @author Jordan Martin & Jonathan Taws
  */
 public class SensorDataConverter
 {
@@ -36,8 +35,8 @@ public class SensorDataConverter
     }    
     
     /**
-     * Get the right value depend of the type of the sensor.
-     * The first and second byte must contains the type and the mode given by the command getTypeMode
+     * Get the right value depending on the type of the sensor.
+     * The first and second byte must contain the type and the mode given by the command getTypeMode
      * 
      * @param data
      * @param firstByteIndex

@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class allow the managment of the response : - Manage the id of
- * command/response - Wait a response
+ * This class allows the managment of the response : - Manage the id of
+ * command/response - Wait for a response
  *
- * @author Jordan
+ * @author Jordan Martin & Jonathan Taws
  */
 public class ResponseManager
 {
@@ -47,11 +47,11 @@ public class ResponseManager
     }
 
     /**
-     * Listen the reception of the response
+     * Listen for the reception of the response
      *
      * @param response     The response to wait
      * @param waitReceived if true this call is locking until the response is
-     *                     not received. Else the function return directly and
+     *                     not received. Else the function returns directly and
      *                     the response is received asynchronously
      */
     public static void listenForResponse(Response response, boolean waitReceived)
@@ -70,7 +70,7 @@ public class ResponseManager
     }
 
     /**
-     * This function is call when data arrived
+     * This function is called when data arrived
      * @param report the data received
      */
     public static void handleResponse(byte[] report)

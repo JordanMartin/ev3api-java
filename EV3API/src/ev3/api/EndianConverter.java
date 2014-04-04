@@ -2,14 +2,14 @@
 package ev3.api;
 
 /**
- * This class allow the convertion of Endian for number
- * @author Jordan
+ * This class allows the conversion of Big Endian to Small Endian for numbers
+ * @author Jordan Martin & Jonathan Taws
  */
 public class EndianConverter
 {
 
     /**
-     * Convert the int number into it's opposite endian representation
+     * Convert the int number into its opposite endian representation
      * @param number number to convert
      * @return the int converted number
      */
@@ -22,7 +22,7 @@ public class EndianConverter
     }
 
     /**
-     * Convert the int number into it's opposite endian representation
+     * Convert the int number into its opposite endian representation
      * @param number number to convert
      * @return the short converted number
      */
@@ -32,7 +32,7 @@ public class EndianConverter
     }
 
     /**
-     * Convert the four first bytes into it's opposite int endian representation
+     * Convert the four first bytes into their opposite int endian representation
      * @param bytes Byte which composed the number bytes[0] is the MSB
      * @return the int converted number
      */
@@ -48,7 +48,7 @@ public class EndianConverter
     }
 
     /**
-     * Convert the two first bytes into it's opposite short endian representation
+     * Convert the two first bytes into their opposite short endian representation
      * @param bytes Byte which composed the number bytes[0] is the MSB
      * @return the short converted number
      */
@@ -61,7 +61,7 @@ public class EndianConverter
     }  
     
     /**
-     * Get the current short representation of the two bytes
+     * Get the current short representation of two bytes or more
      * @param bytes
      * @return 
      */

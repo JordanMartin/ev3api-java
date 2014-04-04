@@ -3,7 +3,7 @@ package ev3.api;
 
 /**
  *
- * @author Jordan
+ * @author Jordan Martin & Jonathan Taws
  */
 public class BluetoothCommunicationException extends Exception
 {

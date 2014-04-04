@@ -3,8 +3,8 @@ package ev3.api;
 import ev3.api.EV3Types.*;
 
 /**
- * This class represent a response 
- * @author Jordan
+ * This class represents a response 
+ * @author Jordan Martin & Jonathan Taws
  */
 public class Response {
     

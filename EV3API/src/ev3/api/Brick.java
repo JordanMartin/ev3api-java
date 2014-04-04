@@ -4,7 +4,7 @@ import ev3.api.EV3Types.*;
 
 /**
  *
- * @author Jordan
+ * @author Jordan Martin & Jonathan Tawsn
  */
 public class Brick
 {
@@ -15,7 +15,7 @@ public class Brick
 
     /**
      * Create a new brick with the specified communication (only bluetooth
-     * avaialble for now)
+     * available for now)
      *
      * @param comm
      */
@@ -46,7 +46,7 @@ public class Brick
     }
 
     /**
-     * Send the batchCommand Before send this command you must instanciate the
+     * Send the batchCommand : before sending this command you must instanciate the
      * attribute batchCommand with a new command and add commands
      * @param waitResponse
      */
@@ -67,7 +67,7 @@ public class Brick
     /**
      * Connect to the ev3
      *
-     * @return true if connection success
+     * @return true if successfully connected
      */
     public boolean connect()
     {

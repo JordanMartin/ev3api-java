@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 
 /**
  *
- * @author Jordan
+ * @author Jordan Martin & Jonathan Taws
  */
 public class Command
 {
@@ -35,7 +35,7 @@ public class Command
     }
 
     /**
-     * Create a new command with the specified command type The globalSize is
+     * Create a new command with the specified command type : the globalSize is
      * used with the Direct_Reply or System_Reply command type to define the
      * length of the returned response
      *
@@ -52,7 +52,7 @@ public class Command
     }
 
     /**
-     * Start a new command of a speicifc type with a global and/or local buffer
+     * Start a new command of a specific type with a global and/or local buffer
      * on the EV3 brick
      *
      * @param commandType The type of the command to start
@@ -73,10 +73,10 @@ public class Command
         data = ByteBuffer.allocateDirect(200);
         response = ResponseManager.createResponse();
 
-        // Two first byte for the command length (gets filled in later)
+        // Two first bytes for the command length (gets filled in later)
         data.putShort((short)0);
 
-        // Two byte for the request identification
+        // Two bytes for the request identification
         data.putShort((short)response.sequence);
 
         // One byte for the type of command
@@ -138,8 +138,8 @@ public class Command
     }
 
     /**
-     * Add a parameter on 4 bytes to the message. This function add a byte
-     * before the parameter to specify the number of byte where it is coded
+     * Add a parameter on 4 bytes to the message. This function adds a byte
+     * before the parameter to specify the number of bytes where it is coded
      *
      * @param parameter
      */
@@ -150,7 +150,7 @@ public class Command
     }
 
     /**
-     * Add a parameter on 1 bytes to the message. This function add a byte
+     * Add a parameter on 1 byte to the message. This function adds a byte
      * before the parameter to specify the number of byte where it is coded
      *
      * @param parameter
@@ -162,7 +162,7 @@ public class Command
     }
 
     /**
-     * Add a parameter on 2 bytes to the message. This function add a byte
+     * Add a parameter on 2 bytes to the message. This function adds a byte
      * before the parameter to specify the number of byte where it is coded
      *
      * @param parameter
@@ -174,8 +174,8 @@ public class Command
     }
 
     /**
-     * Add parameter on 1 bytes and don't get format specifier added prior to
-     * the data itself. these are used in system commands (only?)
+     * Add parameter on 1 byte and don't get format specifier added prior to
+     * the data itself : used only in system commands
      *
      * @param parameter
      */
@@ -186,7 +186,7 @@ public class Command
 
     /**
      * Add parameter on 2 bytes and don't get format specifier added prior to
-     * the data itself. these are used in system commands (only?)
+     * the data itself : used only in system commands
      *
      * @param parameter
      */
@@ -197,7 +197,7 @@ public class Command
 
     /**
      * Add parameter on 4 bytes and don't get format specifier added prior to
-     * the data itself. these are used in system commands (only?)
+     * the data itself : used only in system commands
      *
      * @param parameter
      */
@@ -208,8 +208,8 @@ public class Command
 
     /**
      * Add string parameter and don't get format specifier added prior to the
-     * data itself. these are used in system commands (only?)
-     *
+     * data itself : used only in system commands
+     * 
      * @param parameter
      */
     private void addRawParameter(String parameter)
@@ -220,7 +220,7 @@ public class Command
     }
 
     /**
-     * This function is used to specified the index where the response will be
+     * This function is used to specify the index where the response will be
      *
      * @param index the index
      */
@@ -232,7 +232,7 @@ public class Command
     }
 
     /**
-     * Concat the ports in a byte
+     * Concatenate the ports in a byte
      *
      * @param ports
      *
@@ -275,7 +275,7 @@ public class Command
 
     /**
      * Add to the message the command : turn motor at the specified power during
-     * the specified times
+     * the specified time
      *
      * @param port  A specific port
      * @param power The power at which to turn the motor (-100% to 100%).
@@ -291,7 +291,7 @@ public class Command
 
     /**
      * Turn the motor connected to the specified port or ports at the specified
-     * power for the specified times.
+     * power for the specified time.
      *
      * @param ports      A specific port or Ports.All.
      * @param power      The power at which to turn the motor (-100% to 100%).
@@ -314,7 +314,7 @@ public class Command
         addParameter(EndianConverter.swapToInt(msRampUp));
         addParameter(EndianConverter.swapToInt(msConstant));
         addParameter(EndianConverter.swapToInt(msRampDown));
-        addParameter((byte)(brake ? 1 : 0)); // brake (0=coast, 1 = brake)
+        addParameter((byte)(brake ? 1 : 0)); // brake (0 = coast, 1 = brake)
     }
 
     /**
@@ -392,7 +392,7 @@ public class Command
     }
 
     /**
-     * Wait for the output ready (wait for rotation complemetion)
+     * Wait for the output to be ready (wait for rotation completion)
      *
      * @param ports
      *
@@ -410,7 +410,7 @@ public class Command
      *
      * @param ports Port to define the power
      * @param brake if true the rotation is stopped by applying power else the
-     *              motor just stop to power up.
+     *              motor just stops to power up.
      *
      * @throws ArgumentException
      */
@@ -423,9 +423,9 @@ public class Command
     }
 
     /**
-     * Add to the message the command : Start to power up the motor. Before use
+     * Add to the message the command : Start to power up the motor. Before using
      * this function you must define the parameters. For exemple with
-     * turnMotorAtSpeed(...). Else the parameters are the previous known
+     * turnMotorAtSpeed(...), otherwise the parameters are the previously known
      *
      * @param ports
      *
@@ -468,7 +468,7 @@ public class Command
     }
 
     /**
-     * Add the message the command : Read raw value of the specified port
+     * Add the message to the command : Read raw value of the specified port
      *
      * @param port  The port to query
      * @param mode  The mode to query the value as
@@ -496,7 +496,7 @@ public class Command
      * Append the Read SI command to an existing Command object
      *
      * @param port  The port to query
-     * @param mode  The mode to read the data as
+     * @param mode  The mode to read the data
      * @param index The index to hold the return value in the global buffer
      *
      * @throws ArgumentException
@@ -514,7 +514,7 @@ public class Command
         addParameter((byte)port.get()); // port
         addParameter((byte)0); // type (0 = don't change)
         addParameter((byte)mode); // Mode
-        addParameter((byte)1); // Number of values retourned
+        addParameter((byte)1); // Number of values returned
         addGlobalIndex((byte)index); // index for return data
     }
 
@@ -522,7 +522,7 @@ public class Command
      * Append the Read Percent command to an existing Command object
      *
      * @param port  The port to query
-     * @param mode  The mode to query the value as
+     * @param mode  The mode to query the value
      * @param index The index in the global buffer to hold the return value
      *
      * @throws ArgumentException
@@ -540,7 +540,7 @@ public class Command
         addParameter((byte)port.get()); // port
         addParameter(0x00); // type
         addParameter((byte)mode); // mode
-        addParameter((byte)1); // Number of values retourned
+        addParameter((byte)1); // Number of values returned
         addGlobalIndex((byte)index); // index for return data
     }
 
@@ -649,7 +649,7 @@ public class Command
     
 
     /**
-     * Return all the bytes of the command in byte[] The two first bytes are
+     * Return all the bytes of the command in byte[]. The two first bytes are
      * filled in with the length of the command
      *
      * @return the array byte
@@ -658,7 +658,7 @@ public class Command
     {
         int bytesCount = data.position();
 
-        // Add the length of the message on two two first byte of the message
+        // Add the length of the message on two first bytes of the message
         data.putShort(0, EndianConverter.swapToShort((short)(bytesCount - 2)));
 
         byte[] ret = new byte[bytesCount];

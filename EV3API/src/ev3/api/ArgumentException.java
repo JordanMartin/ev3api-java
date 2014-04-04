@@ -2,7 +2,7 @@ package ev3.api;
 
 /**
  *
- * @author Jordan
+ * @author Jordan Martin & Jonathan Taws
  */
 public class ArgumentException extends Exception
 {

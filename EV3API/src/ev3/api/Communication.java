@@ -3,8 +3,8 @@ package ev3.api;
 import javax.swing.event.EventListenerList;
 
 /**
- * This abstract class contains methods and the listener use for the communication
- * @author Jordan
+ * This abstract class contains methods and the listener used for the communication
+ * @author Jordan Martin & Jonathan Taws
  */
 public abstract class Communication
 {
@@ -23,7 +23,7 @@ public abstract class Communication
     }
     
     /**
-     * Fire new data to all listener
+     * Fire new data to all listeners
      * @param data 
      */
     public void fireDataReceived(byte[] data) {

@@ -1,9 +1,9 @@
 package ev3.api;
 
 /**
- * Constante for EV3 communication
+ * Constant for EV3 communication
  *
- * @author Jordan
+ * @author Jordan Martin & Jonathan Taws
  */
 public class EV3Types
 {
