@@ -1,7 +1,7 @@
 ev3api-java
 ===========
 
-This Java API allow to you control an EV3 over a serial port (which is emulated with bluetooth). It use the Java Simple Serial Connector (jSSC) library to access the serial port. It is compatible with Windows, Linux and Mac.
+This Java API allows you to control an EV3 over a serial port (which is emulated with bluetooth). It uses the Java Simple Serial Connector (jSSC) library to access the serial port. It is compatible with Windows, Linux and Mac.
 
 This API was written with the help of the microsoft API (in C#) and the source code of the brick (see links bellow)
 
@@ -23,7 +23,7 @@ What this API can do ?
     * Gyroscope
     * HiTechnic compass (two degrees precision for now...)
 
-For the moment only these sensors are implemeted but if you look at what has already been done you will be able to easily add another.
+For the moment only thise sensors are implemeted but if you look at what has already been done you will be able to easily add another. Forking is your friend !
 
  - Other 
     * Play a tone 
@@ -33,13 +33,15 @@ For the moment only these sensors are implemeted but if you look at what has alr
 TODO
 ====
 
- - Implements USB and WIFI communication
- - Implements more sensors 
+ - Implement USB and WIFI communication
+ - Implement more sensors 
 
 
 
-Links
-=====
+External and reference links
+============================
  - C# API : http://legoev3.codeplex.com/
  - Source code of the brick  :  https://github.com/mindboards/ev3sources
  - jSSC library : https://code.google.com/p/java-simple-serial-connector/
+ 
+ Developed by Jordan Martin and Jonathan Taws.
